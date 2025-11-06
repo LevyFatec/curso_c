@@ -1,0 +1,58 @@
+/* RF03.4 & RF03.5: Estilos para o Bloco de Código */
+
+.code-wrapper {
+    position: relative;
+    margin: 20px 0;
+}
+
+/* Estiliza o 'pre' que o Prism.js usa */
+pre[class*="language-"] {
+    /* Ajusta o padding para dar espaço ao botão */
+    padding: 1em;
+    padding-top: 40px; 
+    margin: 0;
+}
+
+.copy-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    padding: 5px 10px;
+    background-color: #555;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+
+.code-wrapper:hover .copy-button {
+    opacity: 1;
+}
+
+.copy-button:hover {
+    background-color: #777;
+}
+
+/* Estilo para o botão de concluir aula */
+#lesson-actions {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #ccc;
+}
+
+#complete-lesson-button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+#complete-lesson-button:disabled {
+    background-color: #aaa;
+}
