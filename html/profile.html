@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Meu Perfil</h1>
+        <nav>
+            <a href="index.html">Voltar ao Curso</a> 
+            <button id="logout-button">Sair</button>
+        </nav>
+    </header>
+
+    <main>
+        <div id="loading-message">Carregando informações do perfil...</div>
+        
+        <section id="profile-details" style="display: none;">
+            <h2>Informações da Conta</h2>
+            <p><strong>Email:</strong> <span id="profile-email"></span></p>
+            
+            <p><strong>Nome de Usuário:</strong> <span id="profile-username"></span></p>
+            <p><strong>Pontuação Total:</strong> <span id="profile-points"></span> (RF04.3)</p>
+        </section>
+
+        </main>
+
+    <script type="module" src="../js/main.js"></script>
+    <script type="module" src="../js/auth-guard.js"></script>
+    <script type="module" src="../js/profile-logic.js"></script>
+
+</body>
+</html>
