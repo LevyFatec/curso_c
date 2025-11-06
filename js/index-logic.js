@@ -62,7 +62,8 @@ function renderSubsections(subsections, userProgress, container) {
             subsection.exercises.forEach(exercise => {
                 const exerciseItem = document.createElement('li');
                 // (CORRIGIDO) Garante que o link do exercício está aqui
-                exerciseItem.innerHTML = `💻 <a href="exercise.html?id=${exercise.exercise_id}">${exercise.title}</a>`;
+                // Linha NOVA (com ícone):
+exerciseItem.innerHTML = `<i class="fa-solid fa-laptop-code"></i> <a href="exercise.html?id=${exercise.exercise_id}">${exercise.title}</a>`;
                 exerciseList.appendChild(exerciseItem);
             });
             subsectionDiv.appendChild(exerciseList);
