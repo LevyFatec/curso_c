@@ -56,3 +56,17 @@ pre[class*="language-"] {
 #complete-lesson-button:disabled {
     background-color: #aaa;
 }
+
+/* RF04.4: Estilos para aulas concluídas */
+
+.lesson-completed a {
+    /* Deixa o link cinza para mostrar que já foi feito */
+    color: #555; 
+    text-decoration: line-through; /* Tacha o texto */
+}
+
+.lesson-completed .checkmark {
+    color: #28a745; /* Verde */
+    font-weight: bold;
+    margin-left: 5px;
+}
