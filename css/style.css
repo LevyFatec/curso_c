@@ -70,3 +70,37 @@ pre[class*="language-"] {
     font-weight: bold;
     margin-left: 5px;
 }
+
+/* Estilos para a nova lógica de Acordeão */
+
+.course-section h3 {
+    /* Faz o título da seção ser clicável */
+    cursor: pointer;
+    color: #0056b3; /* Uma cor de link */
+    transition: color 0.2s;
+}
+
+.course-section h3:hover {
+    color: #003d7a;
+    text-decoration: underline;
+}
+
+/* O container das subseções */
+.subsection-content {
+    /* Adiciona um recuo e uma borda para organizar */
+    padding-left: 20px;
+    margin-left: 10px;
+    border-left: 2px solid #eee;
+    overflow: hidden; /* Ajuda na animação (se adicionarmos no futuro) */
+}
+
+/* Listas de aulas e exercícios dentro do container */
+.subsection-content .lesson-list,
+.subsection-content .exercise-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.subsection-content .exercise-list li {
+    margin-top: 5px; /* Separa aulas de exercícios */
+}
