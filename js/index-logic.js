@@ -22,63 +22,46 @@ if (logoutButton) {
     });
 }
 
-// 3. (NOVO) Função para carregar a estrutura do curso (RF02)
-async function loadCourseStructure() {
-    if (!courseListDiv) return; // Se não houver onde colocar, pare
+// 3. (NOVO) Função para RENDERIZAR a estrutura do curso
+// Esta função agora recebe o progresso do usuário como argumento
+function renderCourseStructure(sections, userProgress) {
+    if (!courseListDiv) return;
 
-    console.log("Carregando estrutura do curso...");
-
-    // A MÁGICA DO SUPABASE:
-    // Buscamos 'sections' e, com '*, ...', pedimos para ele trazer
-    // 'subsections' aninhadas, e 'lessons' aninhadas dentro delas.
-    // Tudo em UMA ÚNICA CHAMADA!
-    let { data: sections, error } = await supabase
-        .from('sections')
-        .select(`
-            title,
-            description,
-            subsections (
-                title,
-                lessons (
-                    lesson_id,
-                    title
-                )
-            )
-        `)
-        .order('order', { ascending: true }) // Ordena as seções
-        .order('order', { foreignTable: 'subsections', ascending: true }) // Ordena as subseções
-        .order('order', { foreignTable: 'subsections.lessons', ascending: true }); // Ordena as aulas
-
-    if (error) {
-        console.error("Erro ao buscar estrutura do curso:", error);
-        courseListDiv.innerHTML = `<p style="color: red;">Erro ao carregar o curso.</p>`;
-        return;
-    }
+    // Cria um Set (lista rápida) com os IDs das aulas concluídas
+    // Ex: completedSet = { 1, 2, 5 }
+    const completedSet = new Set(userProgress.map(item => item.lesson_id));
 
     if (sections && sections.length > 0) {
-        console.log("Estrutura recebida:", sections);
         // Limpa a mensagem "Carregando..."
         courseListDiv.innerHTML = ''; 
 
-        // 4. (NOVO) Renderiza a estrutura em HTML
         sections.forEach(section => {
-            // Cria a div da Seção
             const sectionDiv = document.createElement('div');
             sectionDiv.className = 'course-section';
             sectionDiv.innerHTML = `<h3>${section.title}</h3><p>${section.description}</p>`;
             
-            // Adiciona Subseções
             section.subsections.forEach(subsection => {
                 const subsectionDiv = document.createElement('div');
                 subsectionDiv.className = 'course-subsection';
                 subsectionDiv.innerHTML = `<h4>${subsection.title}</h4>`;
                 
-                // Adiciona Aulas (RF02.3)
                 const lessonList = document.createElement('ul');
                 subsection.lessons.forEach(lesson => {
                     const lessonItem = document.createElement('li');
-                    // IMPORTANTE: Criamos o link para a página da aula (que faremos a seguir)
-                    lessonItem.innerHTML = `<a href="lesson.html?id=${lesson.lesson_id}">${lesson.title}</a>`;
+                    
+                    // (NOVO) Verifica se a aula está no Set de concluídas
+                    const isCompleted = completedSet.has(lesson.lesson_id);
+                    
+                    // (NOVO) Adiciona o "check" se estiver concluída (RF04.4)
+                    const checkMark = isCompleted ? '<span class="checkmark"> ✓</span>' : '';
+                    
+                    lessonItem.innerHTML = `<a href="lesson.html?id=${lesson.lesson_id}">${lesson.title}</a>${checkMark}`;
+                    
+                    // (NOVO) Adiciona uma classe para estilização
+                    if (isCompleted) {
+                        lessonItem.classList.add('lesson-completed');
+                    }
+
                     lessonList.appendChild(lessonItem);
                 });
                 
@@ -93,5 +76,62 @@ async function loadCourseStructure() {
     }
 }
 
-// 5. (NOVO) Chama a função para carregar o curso assim que a página abrir
-loadCourseStructure();
+
+// 4. (NOVO) Função para CARREGAR tudo (Estrutura e Progresso)
+async function loadCourseData() {
+    if (!user) return; // Se não houver usuário, pare
+    
+    console.log("Carregando dados do curso e progresso do usuário...");
+
+    try {
+        // Vamos buscar duas coisas ao mesmo tempo
+        const coursePromise = supabase
+            .from('sections')
+            .select(`
+                title,
+                description,
+                subsections (
+                    title,
+                    lessons (
+                        lesson_id,
+                        title
+                    )
+                )
+            `)
+            .order('order', { ascending: true })
+            .order('order', { foreignTable: 'subsections', ascending: true })
+            .order('order', { foreignTable: 'subsections.lessons', ascending: true });
+
+        const progressPromise = supabase
+            .from('user_progress')
+            .select('lesson_id') // Só precisamos do ID
+            .eq('user_id', user.id); // Apenas do usuário logado
+
+        // Espera as duas promessas terminarem
+        const [courseResult, progressResult] = await Promise.all([
+            coursePromise,
+            progressPromise
+        ]);
+
+        const { data: sections, error: courseError } = courseResult;
+        const { data: userProgress, error: progressError } = progressResult;
+
+        if (courseError) throw courseError;
+        if (progressError) throw progressError;
+
+        console.log("Estrutura do curso:", sections);
+        console.log("Progresso do usuário:", userProgress);
+
+        // 5. (NOVO) Chama a função de renderizar, passando os dois resultados
+        renderCourseStructure(sections, userProgress);
+
+    } catch (error) {
+        console.error("Erro ao carregar dados do curso:", error);
+        if (courseListDiv) {
+            courseListDiv.innerHTML = `<p style="color: red;">Erro ao carregar o curso.</p>`;
+        }
+    }
+}
+
+// 6. (NOVO) Chama a função principal para carregar os dados
+loadCourseData();
