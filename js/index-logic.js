@@ -8,13 +8,10 @@ const logoutButton = document.getElementById('logout-button');
 const userEmailSpan = document.getElementById('user-email');
 const courseListDiv = document.getElementById('course-list');
 
-// --- INICIALIZAÇÃO DA PÁGINA ---
-// 1. Exibe o e-mail (se o elemento existir)
+// --- INICIALIZAÇÃO DA PÁGINA (Login e Logout) ---
 if (userEmailSpan && user) {
     userEmailSpan.textContent = user.email;
 }
-
-// 2. Adiciona a função de Logout (RF01.4)
 if (logoutButton) {
     logoutButton.addEventListener('click', async () => {
         await supabase.auth.signOut();
@@ -22,116 +19,181 @@ if (logoutButton) {
     });
 }
 
-// 3. (NOVO) Função para RENDERIZAR a estrutura do curso
-// Esta função agora recebe o progresso do usuário como argumento
-function renderCourseStructure(sections, userProgress) {
-    if (!courseListDiv) return;
+// --- LÓGICA DO CURSO "ACORDEÃO" ---
+
+/**
+ * 3. (NOVO) Renderiza as subseções, aulas e exercícios DENTRO da seção clicada
+ */
+function renderSubsections(subsections, userProgress, container) {
+    container.innerHTML = ''; // Limpa o "Carregando..."
+    if (!subsections || subsections.length === 0) {
+        container.innerHTML = '<p>Nenhum conteúdo encontrado para esta seção.</p>';
+        return;
+    }
 
     // Cria um Set (lista rápida) com os IDs das aulas concluídas
-    // Ex: completedSet = { 1, 2, 5 }
     const completedSet = new Set(userProgress.map(item => item.lesson_id));
 
-    if (sections && sections.length > 0) {
-        // Limpa a mensagem "Carregando..."
-        courseListDiv.innerHTML = ''; 
-
-        sections.forEach(section => {
-            const sectionDiv = document.createElement('div');
-            sectionDiv.className = 'course-section';
-            sectionDiv.innerHTML = `<h3>${section.title}</h3><p>${section.description}</p>`;
-            
-            section.subsections.forEach(subsection => {
-                const subsectionDiv = document.createElement('div');
-                subsectionDiv.className = 'course-subsection';
-                subsectionDiv.innerHTML = `<h4>${subsection.title}</h4>`;
-                
-                const lessonList = document.createElement('ul');
-                subsection.lessons.forEach(lesson => {
-                    const lessonItem = document.createElement('li');
-                    
-                    // (NOVO) Verifica se a aula está no Set de concluídas
-                    const isCompleted = completedSet.has(lesson.lesson_id);
-                    
-                    // (NOVO) Adiciona o "check" se estiver concluída (RF04.4)
-                    const checkMark = isCompleted ? '<span class="checkmark"> ✓</span>' : '';
-                    
-                    lessonItem.innerHTML = `<a href="lesson.html?id=${lesson.lesson_id}">${lesson.title}</a>${checkMark}`;
-                    
-                    // (NOVO) Adiciona uma classe para estilização
-                    if (isCompleted) {
-                        lessonItem.classList.add('lesson-completed');
-                    }
-
-                    lessonList.appendChild(lessonItem);
-                });
-                
-                subsectionDiv.appendChild(lessonList);
-                sectionDiv.appendChild(subsectionDiv);
+    subsections.forEach(subsection => {
+        const subsectionDiv = document.createElement('div');
+        subsectionDiv.className = 'course-subsection';
+        subsectionDiv.innerHTML = `<h4>${subsection.title}</h4>`;
+        
+        // 1. (CORRIGIDO) Renderiza as AULAS
+        if (subsection.lessons && subsection.lessons.length > 0) {
+            const lessonList = document.createElement('ul');
+            lessonList.className = 'lesson-list';
+            subsection.lessons.forEach(lesson => {
+                const lessonItem = document.createElement('li');
+                const isCompleted = completedSet.has(lesson.lesson_id);
+                const checkMark = isCompleted ? '<span class="checkmark"> ✓</span>' : '';
+                // (CORRIGIDO) Garante que o link da aula está aqui
+                lessonItem.innerHTML = `<a href="lesson.html?id=${lesson.lesson_id}">${lesson.title}</a>${checkMark}`;
+                if (isCompleted) lessonItem.classList.add('lesson-completed');
+                lessonList.appendChild(lessonItem);
             });
-            
-            courseListDiv.appendChild(sectionDiv);
-        });
-    } else {
-        courseListDiv.innerHTML = '<p>Nenhum conteúdo de curso encontrado.</p>';
-    }
-}
-
-
-// 4. (NOVO) Função para CARREGAR tudo (Estrutura e Progresso)
-async function loadCourseData() {
-    if (!user) return; // Se não houver usuário, pare
-    
-    console.log("Carregando dados do curso e progresso do usuário...");
-
-    try {
-        // Vamos buscar duas coisas ao mesmo tempo
-        const coursePromise = supabase
-            .from('sections')
-            .select(`
-                title,
-                description,
-                subsections (
-                    title,
-                    lessons (
-                        lesson_id,
-                        title
-                    )
-                )
-            `)
-            .order('order', { ascending: true })
-            .order('order', { foreignTable: 'subsections', ascending: true })
-            .order('order', { foreignTable: 'subsections.lessons', ascending: true });
-
-        const progressPromise = supabase
-            .from('user_progress')
-            .select('lesson_id') // Só precisamos do ID
-            .eq('user_id', user.id); // Apenas do usuário logado
-
-        // Espera as duas promessas terminarem
-        const [courseResult, progressResult] = await Promise.all([
-            coursePromise,
-            progressPromise
-        ]);
-
-        const { data: sections, error: courseError } = courseResult;
-        const { data: userProgress, error: progressError } = progressResult;
-
-        if (courseError) throw courseError;
-        if (progressError) throw progressError;
-
-        console.log("Estrutura do curso:", sections);
-        console.log("Progresso do usuário:", userProgress);
-
-        // 5. (NOVO) Chama a função de renderizar, passando os dois resultados
-        renderCourseStructure(sections, userProgress);
-
-    } catch (error) {
-        console.error("Erro ao carregar dados do curso:", error);
-        if (courseListDiv) {
-            courseListDiv.innerHTML = `<p style="color: red;">Erro ao carregar o curso.</p>`;
+            subsectionDiv.appendChild(lessonList);
         }
+
+        // 2. (CORRIGIDO) Renderiza os EXERCÍCIOS
+        if (subsection.exercises && subsection.exercises.length > 0) {
+            const exerciseList = document.createElement('ul');
+            exerciseList.className = 'exercise-list';
+            subsection.exercises.forEach(exercise => {
+                const exerciseItem = document.createElement('li');
+                // (CORRIGIDO) Garante que o link do exercício está aqui
+                exerciseItem.innerHTML = `💻 <a href="exercise.html?id=${exercise.exercise_id}">${exercise.title}</a>`;
+                exerciseList.appendChild(exerciseItem);
+            });
+            subsectionDiv.appendChild(exerciseList);
+        }
+
+        container.appendChild(subsectionDiv);
+    });
+}
+
+/**
+ * 2. (NOVO) Busca o conteúdo de UMA seção quando ela é clicada
+ */
+async function handleSectionClick(section, sectionDiv) {
+    // Encontra o container de conteúdo "filho" desta seção
+    const contentContainer = sectionDiv.querySelector('.subsection-content');
+    
+    // Verifica se os dados já foram carregados
+    const isLoaded = contentContainer.dataset.loaded === 'true';
+
+    if (!isLoaded) {
+        // Se não foi carregado:
+        contentContainer.innerHTML = '<p>Carregando...</p>';
+        contentContainer.style.display = 'block'; // Mostra o "Carregando..."
+        contentContainer.dataset.loaded = 'true'; // Marca como carregado (para não buscar de novo)
+
+        try {
+            // Busca o progresso do usuário
+            const progressPromise = supabase
+                .from('user_progress')
+                .select('lesson_id')
+                .eq('user_id', user.id);
+
+            // Busca as subseções (com aulas e exercícios aninhados) APENAS desta seção
+            const subsectionsPromise = supabase
+                .from('subsections')
+                .select(`
+                    title,
+                    lessons (lesson_id, title),
+                    exercises (exercise_id, title)
+                `)
+                .eq('section_id', section.section_id)
+                .order('order', { ascending: true })
+                .order('order', { foreignTable: 'lessons', ascending: true });
+
+            // Espera as duas buscas terminarem
+            const [progressResult, subsectionsResult] = await Promise.all([
+                progressPromise,
+                subsectionsPromise
+            ]);
+
+            const { data: userProgress, error: progressError } = progressResult;
+            const { data: subsections, error: subsectionsError } = subsectionsResult;
+
+            if (progressError || subsectionsError) throw progressError || subsectionsError;
+
+            // Renderiza o conteúdo dentro do container
+            renderSubsections(subsections, userProgress, contentContainer);
+
+        } catch (error) {
+            console.error('Erro ao buscar subseções:', error);
+            contentContainer.innerHTML = '<p style="color: red;">Erro ao carregar conteúdo.</p>';
+            contentContainer.dataset.loaded = 'false'; // Permite tentar de novo
+        }
+
+    } else {
+        // Se já foi carregado: apenas esconde ou mostra (efeito acordeão)
+        const isVisible = contentContainer.style.display === 'block';
+        contentContainer.style.display = isVisible ? 'none' : 'block';
     }
 }
 
-// 6. (NOVO) Chama a função principal para carregar os dados
-loadCourseData();
+/**
+ * 1. (NOVO) Renderiza apenas as Seções principais (Básico, Intermediário...)
+ */
+function renderSections(sections) {
+    courseListDiv.innerHTML = ''; // Limpa o "Carregando..."
+    if (!sections || sections.length === 0) {
+        courseListDiv.innerHTML = '<p>Nenhum curso encontrado.</p>';
+        return;
+    }
+
+    sections.forEach(section => {
+        const sectionDiv = document.createElement('div');
+        sectionDiv.className = 'course-section';
+
+        // 1. O Cabeçalho (Clicável)
+        const header = document.createElement('h3');
+        header.textContent = section.title;
+        header.style.cursor = 'pointer'; // Indica que é clicável
+        sectionDiv.appendChild(header);
+        
+        // 2. A Descrição
+        const description = document.createElement('p');
+        description.textContent = section.description;
+        sectionDiv.appendChild(description);
+
+        // 3. O Container "escondido" para o conteúdo (subseções)
+        const contentContainer = document.createElement('div');
+        contentContainer.className = 'subsection-content';
+        contentContainer.style.display = 'none'; // Começa escondido
+        sectionDiv.appendChild(contentContainer);
+
+        // 4. (NOVO) Adiciona o evento de clique ao cabeçalho
+        header.addEventListener('click', () => handleSectionClick(section, sectionDiv));
+
+        courseListDiv.appendChild(sectionDiv);
+    });
+}
+
+/**
+ * 0. (NOVO) Função principal que INICIA a página
+ */
+async function loadPage() {
+    if (!courseListDiv) return;
+    courseListDiv.innerHTML = '<p>Carregando estrutura do curso...</p>';
+
+    // Busca APENAS as seções
+    let { data: sections, error } = await supabase
+        .from('sections')
+        .select('section_id, title, description')
+        .order('order', { ascending: true });
+
+    if (error) {
+        console.error("Erro ao buscar seções:", error);
+        courseListDiv.innerHTML = `<p style="color: red;">Erro ao carregar o curso.</p>`;
+        return;
+    }
+
+    // Renderiza apenas as seções
+    renderSections(sections);
+}
+
+// --- CHAMA A FUNÇÃO PRINCIPAL ---
+loadPage();
