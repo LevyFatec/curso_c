@@ -373,3 +373,41 @@ pre[class*="language-"] {
         width: 100%;
     }
 }
+/* ===================================================================
+   ESTILIZAÇÃO DO CONTEÚDO DA AULA (Correção)
+   =================================================================== */
+
+/* Seleciona o container do conteúdo da aula */
+#lesson-content-container {
+    font-size: 1.1em; /* Deixa o texto da aula um pouco maior */
+    line-height: 1.7; /* Aumenta o espaçamento entre as linhas */
+}
+
+
+#lesson-content-container > * {
+    margin-bottom: 1.5em; /* (1.5em é aprox. 24px) */
+}
+
+
+#lesson-content-container > *:last-child {
+    margin-bottom: 0;
+}
+/* ===================================================================
+   ESTILIZAÇÃO DO CONTEÚDO DA AULA (Subtítulos)
+   =================================================================== */
+
+/* O subtítulo que acabamos de criar */
+.lesson-subtitle {
+    font-size: 1.5em; /* (ex: 24px) */
+    font-weight: 700; /* Negrito */
+    color: var(--primary-hover); /* Azul escuro */
+    margin-top: 2em; /* Dá um espaço GRANDE antes do subtítulo */
+    margin-bottom: 0.8em; /* Dá um espaço pequeno depois */
+    border-bottom: 2px solid var(--border-color); /* Linha sutil abaixo */
+    padding-bottom: 5px;
+}
+
+/* Garante que o primeiro subtítulo não tenha espaço extra em cima */
+#lesson-content-container > .lesson-subtitle:first-child {
+    margin-top: 0;
+}

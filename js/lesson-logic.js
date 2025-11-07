@@ -11,7 +11,6 @@ const completeMessage = document.getElementById('complete-message');
 const logoutButton = document.getElementById('logout-button');
 
 // --- PEGAR O ID DA AULA PELA URL ---
-// Se a URL for "lesson.html?id=2", isso pega o "2"
 const urlParams = new URLSearchParams(window.location.search);
 const lessonId = urlParams.get('id');
 
@@ -28,23 +27,38 @@ function renderLessonContent(contentItems) {
     contentItems.forEach(item => {
         if (item.type === 'text') {
             const p = document.createElement('p');
-            p.textContent = item.content;
+            p.innerHTML = item.content;
             contentContainer.appendChild(p);
         }
+        
+        /* ================================================= */
+        /* --- (NOVO) AQUI ESTÁ A LÓGICA DO SUBTÍTULO --- */
+        else if (item.type === 'subtitle') {
+            const h3 = document.createElement('h3'); // Cria um <h3>
+            h3.className = 'lesson-subtitle'; // Adiciona uma classe para CSS
+            h3.textContent = item.content;
+            contentContainer.appendChild(h3);
+        }
+        /* ================================================= */
+        
         else if (item.type === 'image') {
-            // RF03.2 - Implementação futura
+            // RF03.2
             const img = document.createElement('img');
             img.src = item.content; // item.content deve ser um URL
             img.alt = "Imagem da aula";
+            img.style.maxWidth = '100%'; // Garante que a imagem seja responsiva
             contentContainer.appendChild(img);
         }
         else if (item.type === 'video') {
-            // RF03.3 - Implementação futura
+            // RF03.3
             const iframe = document.createElement('iframe');
             iframe.src = item.content; // URL do YouTube/Vimeo
             iframe.width = "560";
             iframe.height = "315";
             iframe.allowFullscreen = true;
+            // (Opcional) Estilos para responsividade
+            iframe.style.maxWidth = '100%';
+            iframe.style.aspectRatio = '16 / 9'; 
             contentContainer.appendChild(iframe);
         }
         else if (item.type === 'code') {
@@ -111,8 +125,7 @@ async function completeLesson() {
         console.log('Progresso salvo:', data);
         completeMessage.textContent = 'Aula concluída com sucesso!';
         
-        // (RF04.1) TODO: Adicionar pontos ao usuário
-        // Isso será feito na próxima etapa (Épico 4)
+        // (RF04.1) O trigger no Supabase já está cuidando dos pontos
     }
 }
 
