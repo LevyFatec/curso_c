@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>
@@ -15,13 +16,13 @@
     <header>
         <h1 id="exercise-title">Carregando exercício...</h1>
         <nav>
-            <a href="index.html">Voltar ao Curso</a>
-            <button id="logout-button">Sair</button>
+            <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Voltar ao Curso</a>
+            <button id="logout-button"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
         </nav>
     </header>
 
-    <main>
-        <section id="exercise-statement">
+    <main class="container">
+    <section id="exercise-statement">
             <h2>Enunciado</h2>
             <p id="statement-text">Carregando...</p>
         </section>
@@ -36,7 +37,7 @@
                       placeholder="#include <stdio.h>&#10;&#10;int main() {&#10;    // Seu código aqui...&#10;    return 0;&#10;}"></textarea>
             
             <br>
-            <button id="submit-exercise-button">Entregar Solução</button>
+            <button id="submit-exercise-button"><i class="fa-solid fa-paper-plane"></i> Entregar Solução</button>
             <span id="submit-message" style="margin-left: 10px;"></span>
         </section>
 
