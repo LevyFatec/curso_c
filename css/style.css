@@ -411,3 +411,38 @@ pre[class*="language-"] {
 #lesson-content-container > .lesson-subtitle:first-child {
     margin-top: 0;
 }
+
+/* ===================================================================
+   ESTILOS PARA EXERCÍCIOS ANINHADOS
+   =================================================================== */
+
+/* Remove o padding padrão do <li> da aula para a lista aninhada caber */
+.lesson-item-container {
+    padding: 5px 0;
+}
+
+/* A lista <ul> de exercícios aninhada */
+.exercise-list-nested {
+    list-style-type: none;
+    padding-left: 25px; /* Adiciona o recuo (indentação) */
+    margin-top: 8px;
+    margin-bottom: 5px;
+    font-size: 0.9em; /* Fonte um pouco menor */
+    border-left: 2px solid #eee; /* Linha vertical sutil */
+    margin-left: 5px;
+}
+
+/* O item <li> do exercício */
+.exercise-list-nested li {
+    padding: 2px 0;
+}
+
+/* Link do exercício */
+.exercise-list-nested li a {
+    color: #555; /* Cor mais suave para o exercício */
+    font-weight: bold;
+}
+
+.exercise-list-nested li a:hover {
+    color: var(--primary-hover);
+}
