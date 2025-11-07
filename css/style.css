@@ -1,6 +1,6 @@
 /* ===================================================================
-   RESET BÁSICO E VARIÁVEIS GLOBAIS
-   =================================================================== */
+    RESET BÁSICO E VARIÁVEIS GLOBAIS
+    =================================================================== */
 
 * {
     margin: 0;
@@ -20,8 +20,8 @@
 }
 
 /* ===================================================================
-   ESTILOS GLOBAIS (BODY, HEADER, MAIN)
-   =================================================================== */
+    ESTILOS GLOBAIS (BODY, HEADER, MAIN)
+    =================================================================== */
 
 /* --- MODIFICADO --- (Adicionada a fonte 'Lato') */
 body {
@@ -43,6 +43,13 @@ header {
 
 header h1 {
     color: var(--primary-color);
+    /* [CORREÇÃO DESKTOP]: Garante que o título tenha espaço e não quebre */
+    min-width: 150px; 
+}
+
+/* [CORREÇÃO DESKTOP]: Garante que a navegação não quebre os links */
+header nav {
+    white-space: nowrap; 
 }
 
 header nav a {
@@ -54,8 +61,8 @@ main {
 }
 
 /* ===================================================================
-   /* --- NOVO --- ESTILO DA SEÇÃO HERO (Página Inicial)
-   =================================================================== */
+    /* --- NOVO --- ESTILO DA SEÇÃO HERO (Página Inicial)
+    =================================================================== */
 .hero {
     /* Gradiente */
     background: linear-gradient(90deg, var(--primary-color), var(--primary-hover));
@@ -83,8 +90,8 @@ main {
 }
 
 /* ===================================================================
-   ESTILO DE CONTAINER (Para Login, Cadastro, etc.)
-   =================================================================== */
+    ESTILO DE CONTAINER (Para Login, Cadastro, etc.)
+    =================================================================== */
 .container {
     max-width: 500px;
     margin: 40px auto; 
@@ -101,8 +108,8 @@ main {
 }
 
 /* ===================================================================
-   FORMULÁRIOS (Inputs, Labels, Botões)
-   =================================================================== */
+    FORMULÁRIOS (Inputs, Labels, Botões)
+    =================================================================== */
 form div {
     margin-bottom: 15px;
 }
@@ -175,8 +182,8 @@ a:hover {
 }
 
 /* ===================================================================
-   ESTILOS DO CURSO (Acordeão, Aulas, Checkmark)
-   =================================================================== */
+    ESTILOS DO CURSO (Acordeão, Aulas, Checkmark)
+    =================================================================== */
 
 /* --- MODIFICADO --- (Adicionada a transição e sombra) */
 .course-section {
@@ -250,8 +257,8 @@ a:hover {
 }
 
 /* ===================================================================
-   PÁGINA DA AULA (Código, Botão Copiar, Concluir)
-   =================================================================== */
+    PÁGINA DA AULA (Código, Botão Copiar, Concluir)
+    =================================================================== */
 .code-wrapper {
     position: relative;
     margin: 20px 0;
@@ -291,8 +298,8 @@ pre[class*="language-"] {
 }
 
 /* ===================================================================
-   PÁGINA DO EXERCÍCIO (Textarea)
-   =================================================================== */
+    PÁGINA DO EXERCÍCIO (Textarea)
+    =================================================================== */
 #code-submission-area {
     width: 100%;
     padding: 10px;
@@ -310,24 +317,33 @@ pre[class*="language-"] {
 }
 
 /* ===================================================================
-   CSS RESPONSIVO (Media Queries)
-   Estilos para telas pequenas (ex: celulares)
-   =================================================================== */
+    CSS RESPONSIVO (Media Queries)
+    Estilos para telas pequenas (ex: celulares)
+    =================================================================== */
 
 /* (Estilização 44) 
-   Quando a tela for 768px ou menor... 
+    Quando a tela for 768px ou menor... 
 */
 @media (max-width: 768px) {
 
     /* (Estilização 45) */
     header {
         flex-direction: column; /* Empilha os itens */
-        padding: 20px;
+        padding: 15px 10px; /* [MODIFICADO]: Reduz o padding para celular */
         text-align: center;
+    }
+    
+    /* [NOVO]: Remove o min-width forçado no celular */
+    header h1 {
+        min-width: auto;
     }
 
     header nav {
         margin-top: 15px; /* Adiciona espaço acima dos links/botão */
+        /* [NOVO]: Usa flexbox para espaçar os itens Perfil/Sair */
+        display: flex;
+        gap: 15px;
+        justify-content: center; /* Centraliza a nav */
     }
 
     /* (NOVO) Ajuste do Hero para celular */
@@ -344,8 +360,8 @@ pre[class*="language-"] {
         width: auto; 
         
         /* * A MUDANÇA PRINCIPAL: 
-         * 20px em cima/baixo
-         * 15px nas LATERAIS (para não "encostar")
+          * 20px em cima/baixo
+          * 15px nas LATERAIS (para não "encostar")
         */
         margin: 20px 15px; 
         
@@ -374,8 +390,8 @@ pre[class*="language-"] {
     }
 }
 /* ===================================================================
-   ESTILIZAÇÃO DO CONTEÚDO DA AULA (Correção)
-   =================================================================== */
+    ESTILIZAÇÃO DO CONTEÚDO DA AULA (Correção)
+    =================================================================== */
 
 /* Seleciona o container do conteúdo da aula */
 #lesson-content-container {
@@ -393,8 +409,8 @@ pre[class*="language-"] {
     margin-bottom: 0;
 }
 /* ===================================================================
-   ESTILIZAÇÃO DO CONTEÚDO DA AULA (Subtítulos)
-   =================================================================== */
+    ESTILIZAÇÃO DO CONTEÚDO DA AULA (Subtítulos)
+    =================================================================== */
 
 /* O subtítulo que acabamos de criar */
 .lesson-subtitle {
@@ -413,8 +429,8 @@ pre[class*="language-"] {
 }
 
 /* ===================================================================
-   ESTILOS PARA EXERCÍCIOS ANINHADOS
-   =================================================================== */
+    ESTILOS PARA EXERCÍCIOS ANINHADOS
+    =================================================================== */
 
 /* Remove o padding padrão do <li> da aula para a lista aninhada caber */
 .lesson-item-container {
@@ -450,8 +466,8 @@ pre[class*="language-"] {
     white-space: pre-wrap; 
 }
 /* ===================================================================
-   CORREÇÃO DE ESPAÇAMENTO DE ENUNCIADO (A solução do problema)
-   =================================================================== */
+    CORREÇÃO DE ESPAÇAMENTO DE ENUNCIADO (A solução do problema)
+    =================================================================== */
 
 /* O seu enunciado vive em <section id="exercise-statement"> */
 
@@ -473,8 +489,8 @@ pre[class*="language-"] {
     margin-bottom: 25px; /* Adiciona uma margem inferior extra para separar do código */
 }
 /* ===================================================================
-   ESTILOS DE ACORDEÃO MULTI-NÍVEL (MÓDULOS E AULAS)
-   =================================================================== */
+    ESTILOS DE ACORDEÃO MULTI-NÍVEL (MÓDULOS E AULAS)
+    =================================================================== */
 
 .course-module {
     margin-bottom: 10px;
@@ -576,8 +592,8 @@ pre[class*="language-"] {
     color: #555;
 }
 /* ===================================================================
-   ESTILIZAÇÃO DE ACORDEÃO (SEÇÃO PRINCIPAL - H3)
-   =================================================================== */
+    ESTILIZAÇÃO DE ACORDEÃO (SEÇÃO PRINCIPAL - H3)
+    =================================================================== */
 
 /* Título da Seção Principal (H3) */
 .course-section h3 {
@@ -612,8 +628,8 @@ pre[class*="language-"] {
     padding: 0 20px 15px 20px; 
 }
 /* ===================================================================
-   ESTILOS DE DASHBOARD E ESTATÍSTICAS (GRID)
-   =================================================================== */
+    ESTILOS DE DASHBOARD E ESTATÍSTICAS (GRID)
+    =================================================================== */
 
 .stat-grid {
     display: flex; /* Para alinhar os cartões */
