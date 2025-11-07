@@ -1,4 +1,4 @@
-// Importa o cliente Supabase
+// Importa o cliente Supabase (assumindo que este é o 'main.js')
 import supabase from './main.js';
 // Importa o 'user' que o nosso guardião verificou
 import user from './auth-guard.js';
@@ -9,7 +9,6 @@ const userEmailSpan = document.getElementById('user-email');
 const courseListDiv = document.getElementById('course-list');
 
 // --- INICIALIZAÇÃO DA PÁGINA (Login e Logout) ---
-// Note que o user só existe se o auth-guard passou!
 if (userEmailSpan && user) {
     userEmailSpan.textContent = user.email;
 }
@@ -23,8 +22,8 @@ if (logoutButton) {
 // --- LÓGICA DO CURSO "ACORDEÃO" ---
 
 /**
- * 3. (MODIFICADO) Renderiza as subseções, aulas E exercícios aninhados
- * Esta função cria o Nível 2 (Módulo) e Nível 3 (Aulas/Exercícios)
+ * 3. Renderiza as subseções, aulas E exercícios aninhados.
+ * Cria o Nível 2 (Módulo) e Nível 3 (Aulas/Exercícios).
  */
 function renderSubsections(subsections, userProgress, container) {
     container.innerHTML = ''; // Limpa o "Carregando..."
@@ -39,7 +38,7 @@ function renderSubsections(subsections, userProgress, container) {
     subsections.forEach(subsection => {
         
         // ===============================================
-        // NÍVEL 2: MÓDULOS (O novo elemento clicável)
+        // NÍVEL 2: MÓDULOS (Acordeão das Aulas)
         // ===============================================
         
         const moduleDiv = document.createElement('div');
@@ -47,15 +46,14 @@ function renderSubsections(subsections, userProgress, container) {
 
         // 1. Título do Módulo (O elemento clicável)
         const moduleHeader = document.createElement('h4');
-        moduleHeader.className = 'module-header'; // Para estilização
-        // Ícone de seta para indicar que está colapsado (chevron-right)
+        moduleHeader.className = 'module-header';
         moduleHeader.innerHTML = `<i class="fa-solid fa-chevron-right"></i> ${subsection.title}`;
         moduleDiv.appendChild(moduleHeader);
         
         // 2. Container das Aulas (ESCONDIDO por padrão)
         const lessonContainer = document.createElement('div');
         lessonContainer.className = 'lesson-list-container';
-        lessonContainer.style.display = 'none'; // Aulas ESCONDIDAS!
+        lessonContainer.style.display = 'none';
         
         
         // ===============================================
@@ -89,7 +87,7 @@ function renderSubsections(subsections, userProgress, container) {
 
 
                 // ----------------------------------------
-                // LÓGICA DO TOGGLE DOS EXERCÍCIOS
+                // Container dos Exercícios (Toggle na Aula)
                 // ----------------------------------------
                 if (lesson.exercises && lesson.exercises.length > 0) {
                     
@@ -148,7 +146,7 @@ function renderSubsections(subsections, userProgress, container) {
 
 
 /**
- * 2. (MODIFICADO) Busca o conteúdo (com exercícios aninhados)
+ * 2. Busca o conteúdo (com exercícios aninhados)
  */
 async function handleSectionClick(section, sectionDiv) {
     const contentContainer = sectionDiv.querySelector('.subsection-content');
@@ -166,7 +164,7 @@ async function handleSectionClick(section, sectionDiv) {
                 .select('lesson_id')
                 .eq('user_id', user.id);
 
-            // (A MUDANÇA ESTÁ AQUI: a query do Supabase para buscar tudo aninhado)
+            // Busca as subseções, com aulas, COM EXERCÍCIOS aninhados DENTRO das aulas
             const subsectionsPromise = supabase
                 .from('subsections')
                 .select(`
@@ -204,14 +202,14 @@ async function handleSectionClick(section, sectionDiv) {
         }
 
     } else {
-        // Toggle da Seção Principal
+        // Se já estava carregado, apenas faz o toggle no CSS
         const isVisible = contentContainer.style.display === 'block';
         contentContainer.style.display = isVisible ? 'none' : 'block';
     }
 }
 
 /**
- * 1. (Função Original) Renderiza apenas as Seções principais
+ * 1. Renderiza apenas as Seções principais (Nível 1)
  */
 function renderSections(sections) {
     courseListDiv.innerHTML = ''; 
@@ -225,7 +223,8 @@ function renderSections(sections) {
         sectionDiv.className = 'course-section';
 
         const header = document.createElement('h3');
-        header.textContent = section.title;
+        // INJETANDO O ÍCONE (para a Seção Principal)
+        header.innerHTML = `<i class="fa-solid fa-chevron-right"></i> ${section.title}`;
         header.style.cursor = 'pointer'; 
         sectionDiv.appendChild(header);
         
@@ -239,14 +238,29 @@ function renderSections(sections) {
         sectionDiv.appendChild(contentContainer);
 
         // O clique no H3 (Seção) aciona o carregamento/toggle do conteúdo (Aulas/Módulos)
-        header.addEventListener('click', () => handleSectionClick(section, sectionDiv));
+        header.addEventListener('click', () => {
+            // Lógica de toggle do ícone
+            const icon = header.querySelector('i');
+            
+            if (contentContainer.style.display === 'block') {
+                 // Esconder
+                contentContainer.style.display = 'none';
+                icon.className = 'fa-solid fa-chevron-right'; 
+            } else {
+                // Mostrar
+                contentContainer.style.display = 'block';
+                icon.className = 'fa-solid fa-chevron-down'; 
+                // Chama a função que carrega o conteúdo dos módulos
+                handleSectionClick(section, sectionDiv);
+            }
+        });
 
         courseListDiv.appendChild(sectionDiv);
     });
 }
 
 /**
- * 0. (Função Original) Função principal que INICIA a página
+ * 0. Função principal que INICIA a página
  */
 async function loadPage() {
     if (!courseListDiv) return;
