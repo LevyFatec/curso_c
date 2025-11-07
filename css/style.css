@@ -446,3 +446,6 @@ pre[class*="language-"] {
 .exercise-list-nested li a:hover {
     color: var(--primary-hover);
 }
+#statement-text {
+    white-space: pre-wrap; 
+}
