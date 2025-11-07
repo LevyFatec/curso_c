@@ -611,3 +611,75 @@ pre[class*="language-"] {
 .course-section p {
     padding: 0 20px 15px 20px; 
 }
+/* ===================================================================
+   ESTILOS DE DASHBOARD E ESTATÍSTICAS (GRID)
+   =================================================================== */
+
+.stat-grid {
+    display: flex; /* Para alinhar os cartões */
+    flex-wrap: wrap; /* Permite quebrar em telas menores */
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 20px; /* Espaçamento entre os cartões */
+    margin: 20px auto !important; /* Sobrescreve o container */
+    max-width: 900px; /* Aumenta a largura do grid */
+    padding: 0 20px; /* Padding apenas nas laterais */
+}
+
+/* Card Individual de Estatística */
+.stat-card {
+    background-color: var(--container-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    flex-grow: 1;
+    text-align: center;
+    min-width: 150px; /* Garante que não fique muito pequeno */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.stat-card i {
+    font-size: 2em;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.stat-card p {
+    font-size: 0.9em;
+    color: #777;
+    margin-bottom: 5px;
+    padding: 0; /* Remove padding desnecessário de outros p's */
+}
+
+.stat-card span {
+    display: block;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+/* Título da Seção do Curso */
+#course-container h2 {
+    margin-bottom: 25px;
+    color: var(--primary-hover);
+    font-size: 1.5em;
+    padding-left: 0;
+    text-align: left;
+    display: flex;
+    align-items: center;
+}
+
+#course-container h2 i {
+    margin-right: 10px;
+    color: var(--success-color);
+}
+
+/* --- AJUSTES DE RESPONSIVIDADE (PARA O GRID) --- */
+@media (max-width: 768px) {
+    .stat-grid {
+        flex-direction: column; /* Empilha os cartões */
+        max-width: 100%;
+        padding: 0 15px;
+        margin: 20px auto !important;
+    }
+}

@@ -7,6 +7,11 @@ import user from './auth-guard.js';
 const logoutButton = document.getElementById('logout-button');
 const userEmailSpan = document.getElementById('user-email');
 const courseListDiv = document.getElementById('course-list');
+const totalPointsSpan = document.getElementById('total-points');
+// Elementos para o Dashboard (RF04.3)
+const completedLessonsSpan = document.getElementById('completed-lessons');
+const currentLevelSpan = document.getElementById('current-level');
+
 
 // --- INICIALIZAÇÃO DA PÁGINA (Login e Logout) ---
 if (userEmailSpan && user) {
@@ -19,20 +24,65 @@ if (logoutButton) {
     });
 }
 
+// ===================================================================
+// LÓGICA DO DASHBOARD (RF04.3, RF04.4 - Exemplo de Stats)
+// ===================================================================
+async function loadStats() {
+    if (!user) return; 
+
+    try {
+        // 1. Busca os dados do perfil (que já tem a pontuação)
+        const { data: profile, error: profileError } = await supabase
+            .from('profiles')
+            .select('total_points')
+            .eq('id', user.id)
+            .single();
+
+        // 2. Busca o progresso do usuário para calcular as aulas concluídas
+        const { data: progress, error: progressError } = await supabase
+            .from('user_progress')
+            .select('lesson_id')
+            .eq('user_id', user.id);
+
+        if (profileError || progressError) throw profileError || progressError;
+
+        // 3. (Mock/Exemplo) Calcula o Total de Aulas (Seções 1 a 4 têm 117 aulas)
+        const TOTAL_LESSONS = 117; // Valor hardcoded da nossa estrutura
+        const completedCount = progress ? progress.length : 0;
+        
+        let level = 'Básico';
+        if (completedCount > 50) level = 'Intermediário';
+        if (completedCount > 100) level = 'Avançado';
+        
+        // 4. Preenche os cartões
+        if (totalPointsSpan && profile) {
+            totalPointsSpan.textContent = profile.total_points;
+        }
+        if (completedLessonsSpan) {
+            completedLessonsSpan.textContent = `${completedCount} / ${TOTAL_LESSONS}`;
+        }
+        if (currentLevelSpan) {
+            currentLevelSpan.textContent = level;
+        }
+
+    } catch (error) {
+        console.error("Erro ao carregar estatísticas do usuário:", error);
+        if (totalPointsSpan) totalPointsSpan.textContent = 'Erro';
+    }
+}
+
 // --- LÓGICA DO CURSO "ACORDEÃO" ---
 
 /**
  * 3. Renderiza as subseções, aulas E exercícios aninhados.
- * Cria o Nível 2 (Módulo) e Nível 3 (Aulas/Exercícios).
  */
 function renderSubsections(subsections, userProgress, container) {
-    container.innerHTML = ''; // Limpa o "Carregando..."
+    container.innerHTML = ''; 
     if (!subsections || subsections.length === 0) {
         container.innerHTML = '<p>Nenhum conteúdo encontrado para esta seção.</p>';
         return;
     }
 
-    // Cria um Set (lista rápida) com os IDs das aulas concluídas
     const completedSet = new Set(userProgress.map(item => item.lesson_id));
 
     subsections.forEach(subsection => {
@@ -202,7 +252,7 @@ async function handleSectionClick(section, sectionDiv) {
         }
 
     } else {
-        // Se já estava carregado, apenas faz o toggle no CSS
+        // Toggle da Seção Principal
         const isVisible = contentContainer.style.display === 'block';
         contentContainer.style.display = isVisible ? 'none' : 'block';
     }
@@ -280,5 +330,6 @@ async function loadPage() {
     renderSections(sections);
 }
 
-// --- CHAMA A FUNÇÃO PRINCIPAL ---
+// --- CHAMA AS FUNÇÕES DE INICIALIZAÇÃO ---
 loadPage();
+loadStats();

@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>C programming</title>
+    <title>Dashboard - Curso de C</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">     
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">     
 </head>
 <body>
     
     <header>
-        <h1>Bem-vindo ao Curso de C!</h1>
+        <h1>C-Learn</h1>
         <nav>
-            <a href="profile.html"><i class="fa-solid fa-user"></i> Ver Perfil</a>
+            <a href="profile.html"><i class="fa-solid fa-user"></i> Perfil</a>
             <button id="logout-button"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
         </nav>
     </header>
@@ -23,20 +23,37 @@
     <main>
         
         <div class="hero">
-            <h2>Olá, <span id="user-email">...</span>!</h2>
-            <p>Continue de onde parou. Bons estudos!</p>
+            <h2>Bem-vindo, <span id="user-email">...</span>!</h2>
+            <p>Seu caminho para a maestria em C começa agora. Continue de onde parou!</p>
+        </div>
+
+        <div class="stat-grid container">
+            <div class="stat-card">
+                <i class="fa-solid fa-star"></i>
+                <p>Pontuação Total</p>
+                <span id="total-points">999</span> </div>
+            <div class="stat-card">
+                <i class="fa-solid fa-list-check"></i>
+                <p>Aulas Concluídas</p>
+                <span id="completed-lessons">25 / 117</span>
+            </div>
+            <div class="stat-card">
+                <i class="fa-solid fa-chart-line"></i>
+                <p>Nível Atual</p>
+                <span id="current-level">Intermediário</span>
+            </div>
         </div>
 
         <div class="container">
-        <section id="course-container">
-                <h2>Módulos do Curso</h2>
+            <section id="course-container">
+                <h2><i class="fa-solid fa-graduation-cap"></i> Navegação do Curso</h2>
                 <div id="course-list">
                     <p>Carregando estrutura do curso...</p>
                 </div>
             </section>
-        
         </div> 
-        </main>
+        
+    </main>
 
     <script type="module" src="../js/main.js"></script>
     <script type="module" src="../js/auth-guard.js"></script>
