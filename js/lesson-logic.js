@@ -27,54 +27,47 @@ function renderLessonContent(contentItems) {
     contentItems.forEach(item => {
         if (item.type === 'text') {
             const p = document.createElement('p');
-            p.innerHTML = item.content;
+            
+            /* ================================================= */
+            /* --- (A CORREÇÃO ESTÁ AQUI!) --- */
+            // p.textContent = item.content; // (Linha ANTIGA)
+            p.innerHTML = item.content;      // (Linha NOVA)
+            /* ================================================= */
+
             contentContainer.appendChild(p);
         }
-        
-        /* ================================================= */
-        /* --- (NOVO) AQUI ESTÁ A LÓGICA DO SUBTÍTULO --- */
         else if (item.type === 'subtitle') {
-            const h3 = document.createElement('h3'); // Cria um <h3>
-            h3.className = 'lesson-subtitle'; // Adiciona uma classe para CSS
-            h3.textContent = item.content;
+            const h3 = document.createElement('h3'); 
+            h3.className = 'lesson-subtitle'; 
+            h3.innerHTML = item.content; // Use innerHTML aqui também, por segurança
             contentContainer.appendChild(h3);
         }
-        /* ================================================= */
-        
         else if (item.type === 'image') {
-            // RF03.2
             const img = document.createElement('img');
-            img.src = item.content; // item.content deve ser um URL
+            img.src = item.content;
             img.alt = "Imagem da aula";
-            img.style.maxWidth = '100%'; // Garante que a imagem seja responsiva
+            img.style.maxWidth = '100%'; 
             contentContainer.appendChild(img);
         }
         else if (item.type === 'video') {
-            // RF03.3
             const iframe = document.createElement('iframe');
-            iframe.src = item.content; // URL do YouTube/Vimeo
+            iframe.src = item.content;
             iframe.width = "560";
             iframe.height = "315";
             iframe.allowFullscreen = true;
-            // (Opcional) Estilos para responsividade
             iframe.style.maxWidth = '100%';
             iframe.style.aspectRatio = '16 / 9'; 
             contentContainer.appendChild(iframe);
         }
         else if (item.type === 'code') {
-            // RF03.4 (Syntax Highlighting) e RF03.5 (Botão Copiar)
+            // ... (o resto da lógica do 'code' continua igual) ...
             const codeWrapper = document.createElement('div');
             codeWrapper.className = 'code-wrapper';
-
-            // O 'pre' e 'code' são o que o Prism.js usa
             const pre = document.createElement('pre');
             const code = document.createElement('code');
-            code.className = 'language-c'; // Define a linguagem como C
-            code.textContent = item.content;
-            
+            code.className = 'language-c'; 
+            code.textContent = item.content; // .textContent aqui está CORRETO (para o Prism.js)
             pre.appendChild(code);
-            
-            // Botão Copiar (RF03.5)
             const copyButton = document.createElement('button');
             copyButton.textContent = 'Copiar';
             copyButton.className = 'copy-button';
@@ -86,7 +79,6 @@ function renderLessonContent(contentItems) {
                     })
                     .catch(err => console.error('Erro ao copiar:', err));
             };
-            
             codeWrapper.appendChild(copyButton);
             codeWrapper.appendChild(pre);
             contentContainer.appendChild(codeWrapper);
@@ -104,7 +96,6 @@ async function completeLesson() {
     completeButton.disabled = true;
     completeMessage.textContent = 'Salvando...';
 
-    // Insere o progresso na tabela 'user_progress'
     const { data, error } = await supabase
         .from('user_progress')
         .insert({ 
@@ -113,7 +104,6 @@ async function completeLesson() {
         });
 
     if (error) {
-        // Se o usuário já completou (erro de 'UNIQUE constraint'), tratamos como sucesso
         if (error.code === '23505') { 
             console.log("Aula já estava marcada como concluída.");
             completeMessage.textContent = 'Aula já concluída!';
@@ -124,8 +114,6 @@ async function completeLesson() {
     } else {
         console.log('Progresso salvo:', data);
         completeMessage.textContent = 'Aula concluída com sucesso!';
-        
-        // (RF04.1) O trigger no Supabase já está cuidando dos pontos
     }
 }
 
@@ -142,7 +130,7 @@ async function loadLesson() {
         .from('lessons')
         .select('title')
         .eq('lesson_id', lessonId)
-        .single(); // Esperamos só 1 resultado
+        .single(); 
 
     if (lessonError || !lesson) {
         console.error('Erro ao buscar aula:', lessonError);
@@ -157,7 +145,7 @@ async function loadLesson() {
         .from('lesson_content')
         .select('type, content')
         .eq('lesson_id', lessonId)
-        .order('order', { ascending: true }); // Ordena o conteúdo
+        .order('order', { ascending: true }); 
 
     if (contentError) {
         console.error('Erro ao buscar conteúdo:', contentError);
