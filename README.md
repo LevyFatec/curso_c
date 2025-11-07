@@ -73,7 +73,7 @@ O projeto está publicado em:
 
 ## 👤 Autoria
 
-| Função | Nome | Contato |
+| Função | Nome | gitHub |
 | :--- | :--- | :--- |
 | **Desenvolvedor Principal** | [Levy] | [https://github.com/LevyFatec/curso_c] |
 
