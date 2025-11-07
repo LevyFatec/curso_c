@@ -449,3 +449,26 @@ pre[class*="language-"] {
 #statement-text {
     white-space: pre-wrap; 
 }
+/* ===================================================================
+   CORREÇÃO DE ESPAÇAMENTO DE ENUNCIADO (A solução do problema)
+   =================================================================== */
+
+/* O seu enunciado vive em <section id="exercise-statement"> */
+
+#exercise-statement p {
+    /* (Apenas para garantir que o parágrafo tenha margem inferior) */
+    margin-bottom: 1.2em;
+}
+
+/* Garante que o H2 do enunciado tenha margem inferior para separar do texto */
+#exercise-statement h2 {
+    margin-bottom: 15px; 
+}
+
+/* O ID do parágrafo onde o enunciado do exercício vai */
+#statement-text {
+    
+    white-space: pre-wrap; 
+    
+    margin-bottom: 25px; /* Adiciona uma margem inferior extra para separar do código */
+}
