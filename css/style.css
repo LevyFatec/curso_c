@@ -699,3 +699,27 @@ pre[class*="language-"] {
         margin: 20px auto !important;
     }
 }
+/* ===================================================================
+   CORREÇÃO DE LAYOUT: CENTRALIZANDO E AMPLIANDO CONTEÚDO
+   =================================================================== */
+
+/* Novo wrapper para centralizar a grade de estatísticas */
+.stat-grid-wrapper, .course-content-wrapper {
+    /* Centraliza o bloco na tela */
+    margin: 20px auto; 
+    
+    /* Largura ampliada para PCs/Tablets grandes */
+    max-width: 900px; 
+    
+    /* Adiciona padding interno para evitar encostar nas bordas do navegador */
+    padding: 0 20px; 
+}
+
+/* Onde o layout de 900px se torna 100% no celular */
+@media (max-width: 768px) {
+    .stat-grid-wrapper, .course-content-wrapper {
+        max-width: 100%;
+        /* Ajusta o padding para a correção de 15px do container original */
+        padding: 0 15px; 
+    }
+}

@@ -21,13 +21,14 @@
     </header>
 
     <main>
-        
-        <div class="hero">
-            <h2>Bem-vindo, <span id="user-email">...</span>!</h2>
-            <p>Seu caminho para a maestria em C começa agora. Continue de onde parou!</p>
-        </div>
+    
+    <div class="hero">
+        <h2>Bem-vindo, <span id="user-email">...</span>!</h2>
+        <p>Seu caminho para a maestria em C começa agora. Continue de onde parou!</p>
+    </div>
 
-        <div class="stat-grid container">
+    <div class="stat-grid-wrapper"> 
+        <div class="stat-grid">
             <div class="stat-card">
                 <i class="fa-solid fa-star"></i>
                 <p>Pontuação Total</p>
@@ -43,17 +44,18 @@
                 <span id="current-level">Intermediário</span>
             </div>
         </div>
+    </div>
 
-        <div class="container">
-            <section id="course-container">
-                <h2><i class="fa-solid fa-graduation-cap"></i> Navegação do Curso</h2>
-                <div id="course-list">
-                    <p>Carregando estrutura do curso...</p>
-                </div>
-            </section>
-        </div> 
-        
-    </main>
+    <div class="course-content-wrapper">
+        <section id="course-container">
+            <h2><i class="fa-solid fa-graduation-cap"></i> Navegação do Curso</h2>
+            <div id="course-list">
+                <p>Carregando estrutura do curso...</p>
+            </div>
+        </section>
+    </div>
+    
+</main>
 
     <script type="module" src="../js/main.js"></script>
     <script type="module" src="../js/auth-guard.js"></script>
