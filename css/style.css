@@ -2,45 +2,43 @@
    RESET BÁSICO E VARIÁVEIS GLOBAIS
    =================================================================== */
 
-/* (Estilização 1, 2) */
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box; /* Boa prática: o padding não "aumenta" o tamanho do elemento */
+    box-sizing: border-box; 
 }
 
-/* (Estilização 3) Define variáveis de cor para usar no site inteiro */
 :root {
-    --primary-color: #007bff; /* Azul primário */
-    --primary-hover: #0056b3; /* Azul mais escuro (para hover) */
-    --background-color: #f4f7f6; /* Fundo cinza bem claro */
-    --container-color: #ffffff; /* Cor de "cartão" (branco) */
-    --text-color: #333333; /* Cor do texto principal */
-    --border-color: #dddddd; /* Cor de borda suave */
-    --success-color: #28a745; /* Verde (para mensagens) */
-    --error-color: #dc3545; /* Vermelho (para erros) */
+    --primary-color: #007bff; 
+    --primary-hover: #0056b3; 
+    --background-color: #f4f7f6; 
+    --container-color: #ffffff; 
+    --text-color: #333333; 
+    --border-color: #dddddd; 
+    --success-color: #28a745; 
+    --error-color: #dc3545; 
 }
 
 /* ===================================================================
    ESTILOS GLOBAIS (BODY, HEADER, MAIN)
    =================================================================== */
 
-/* (Estilização 4, 5, 6) */
+/* --- MODIFICADO --- (Adicionada a fonte 'Lato') */
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    /* A nova fonte do Google Fonts vem primeiro */
+    font-family: 'Lato', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     background-color: var(--background-color);
     color: var(--text-color);
     line-height: 1.6;
 }
 
-/* (Estilização 7, 8, 9) */
 header {
     background-color: var(--container-color);
     padding: 20px 40px;
     border-bottom: 1px solid var(--border-color);
-    display: flex; /* (Estilização 10) */
-    justify-content: space-between; /* (Estilização 11) */
-    align-items: center; /* (Estilização 12) */
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
 }
 
 header h1 {
@@ -56,18 +54,45 @@ main {
 }
 
 /* ===================================================================
+   /* --- NOVO --- ESTILO DA SEÇÃO HERO (Página Inicial)
+   =================================================================== */
+.hero {
+    /* Gradiente */
+    background: linear-gradient(90deg, var(--primary-color), var(--primary-hover));
+    color: white;
+    padding: 30px 25px;
+    
+    /* Faz "sangrar" para as bordas do main */
+    margin: -20px -20px 20px -20px; 
+    
+    /* Ajuste para o @media query de celular */
+    border-radius: 0 0 8px 8px; 
+}
+
+.hero h2 {
+    margin: 0;
+    padding: 0;
+    text-align: left; /* Sobrepõe o .container h2 */
+}
+
+.hero p {
+    color: #e0e0e0; /* Um branco mais suave */
+    font-size: 1.1em;
+    padding: 0;
+    margin-top: 5px;
+}
+
+/* ===================================================================
    ESTILO DE CONTAINER (Para Login, Cadastro, etc.)
    =================================================================== */
-
-/* (Estilização 13, 14, 15, 16, 17) */
 .container {
     max-width: 500px;
-    margin: 40px auto; /* Centraliza na página */
+    margin: 40px auto; 
     padding: 30px;
     background-color: var(--container-color);
     border: 1px solid var(--border-color);
-    border-radius: 8px; /* (Estilização 18) Cantos arredondados */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* (Estilização 19) Sombra suave */
+    border-radius: 8px; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); 
 }
 
 .container h2 {
@@ -78,19 +103,16 @@ main {
 /* ===================================================================
    FORMULÁRIOS (Inputs, Labels, Botões)
    =================================================================== */
-
-/* (Estilização 20) */
 form div {
     margin-bottom: 15px;
 }
 
 form label {
-    display: block; /* (Estilização 21) */
+    display: block; 
     margin-bottom: 5px;
-    font-weight: bold; /* (Estilização 22) */
+    font-weight: bold; 
 }
 
-/* (Estilização 23, 24, 25, 26) */
 form input[type="text"],
 form input[type="email"],
 form input[type="password"] {
@@ -100,14 +122,12 @@ form input[type="password"] {
     border-radius: 5px;
 }
 
-/* (Estilização 27) */
 form input:focus {
     border-color: var(--primary-color);
-    outline: none; /* Remove a borda azul feia do Chrome */
+    outline: none; 
     box-shadow: 0 0 5px rgba(0,123,255,0.3);
 }
 
-/* (Estilização 28, 29) - Estilo padrão de botão */
 button {
     background-color: var(--primary-color);
     color: white;
@@ -117,10 +137,9 @@ button {
     cursor: pointer;
     font-size: 1em;
     font-weight: bold;
-    transition: background-color 0.3s; /* (Estilização 30) Animação suave */
+    transition: background-color 0.3s; 
 }
 
-/* (Estilização 31) - Efeito :hover (passar o mouse) */
 button:hover {
     background-color: var(--primary-hover);
 }
@@ -129,7 +148,6 @@ button:disabled {
     background-color: #aaa;
 }
 
-/* Botão de Logout no Header */
 header #logout-button {
     background-color: var(--error-color);
 }
@@ -137,22 +155,19 @@ header #logout-button:hover {
     background-color: #a71d2a;
 }
 
-/* Botão de formulário (largura total) */
 form button {
     width: 100%;
 }
 
-/* Links */
 a {
     color: var(--primary-color);
-    text-decoration: none; /* (Estilização 32) */
+    text-decoration: none; 
 }
 
 a:hover {
     text-decoration: underline;
 }
 
-/* Mensagens de feedback (ex: "Link enviado!") */
 #message {
     margin-top: 15px;
     text-align: center;
@@ -163,14 +178,24 @@ a:hover {
    ESTILOS DO CURSO (Acordeão, Aulas, Checkmark)
    =================================================================== */
 
-/* (Estilização 33) */
+/* --- MODIFICADO --- (Adicionada a transição e sombra) */
 .course-section {
     background-color: var(--container-color);
     margin-bottom: 15px;
     border: 1px solid var(--border-color);
     border-radius: 8px;
     overflow: hidden; /* Para o acordeão */
+
+    /* (NOVO) Transição suave para o hover */
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
 }
+
+/* --- NOVO --- (Efeito de "levantar" ao passar o mouse) */
+.course-section:hover {
+    transform: translateY(-3px); /* Efeito de "levantar" */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08); /* Sombra mais pronunciada */
+}
+
 
 .course-section h3 {
     cursor: pointer;
@@ -190,7 +215,6 @@ a:hover {
     color: #555;
 }
 
-/* (Estilização 34) */
 .subsection-content {
     padding-left: 20px;
     margin-left: 20px;
@@ -200,7 +224,6 @@ a:hover {
     display: none; /* Começa escondido (lógica JS controla) */
 }
 
-/* (Estilização 35) */
 .lesson-list,
 .exercise-list {
     list-style-type: none;
@@ -215,13 +238,11 @@ a:hover {
     margin-top: 8px;
 }
 
-/* (Estilização 36) */
 .lesson-completed a {
     color: #555; 
     text-decoration: line-through;
 }
 
-/* (Estilização 37) */
 .lesson-completed .checkmark {
     color: var(--success-color);
     font-weight: bold;
@@ -231,22 +252,16 @@ a:hover {
 /* ===================================================================
    PÁGINA DA AULA (Código, Botão Copiar, Concluir)
    =================================================================== */
-
-/* (Estilização 38) */
 .code-wrapper {
     position: relative;
     margin: 20px 0;
 }
 
-/* (Estilização 39) */
-/* O CSS do Prism.js (o tema "Tomorrow") vai controlar o 'pre' */
-/* Nós só damos espaço para o botão "copiar" */
 pre[class*="language-"] {
-    padding-top: 45px !important; /* !important para sobrepor o estilo do Prism */
+    padding-top: 45px !important; 
     margin: 0;
 }
 
-/* (Estilização 40) */
 .copy-button {
     position: absolute;
     top: 8px;
@@ -261,14 +276,12 @@ pre[class*="language-"] {
     opacity: 1;
 }
 
-/* (Estilização 41) */
 #lesson-actions {
     margin-top: 30px;
     padding-top: 20px;
     border-top: 1px solid var(--border-color);
 }
 
-/* (Estilização 42) */
 #complete-lesson-button {
     background-color: var(--success-color);
 }
@@ -280,14 +293,12 @@ pre[class*="language-"] {
 /* ===================================================================
    PÁGINA DO EXERCÍCIO (Textarea)
    =================================================================== */
-
-/* (Estilização 43) */
 #code-submission-area {
     width: 100%;
     padding: 10px;
     border: 1px solid var(--border-color);
     border-radius: 5px;
-    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace; /* Fonte de código */
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace; 
     font-size: 0.95em;
     line-height: 1.5;
 }
@@ -296,4 +307,69 @@ pre[class*="language-"] {
     border-color: var(--primary-color);
     outline: none;
     box-shadow: 0 0 5px rgba(0,123,255,0.3);
+}
+
+/* ===================================================================
+   CSS RESPONSIVO (Media Queries)
+   Estilos para telas pequenas (ex: celulares)
+   =================================================================== */
+
+/* (Estilização 44) 
+   Quando a tela for 768px ou menor... 
+*/
+@media (max-width: 768px) {
+
+    /* (Estilização 45) */
+    header {
+        flex-direction: column; /* Empilha os itens */
+        padding: 20px;
+        text-align: center;
+    }
+
+    header nav {
+        margin-top: 15px; /* Adiciona espaço acima dos links/botão */
+    }
+
+    /* (NOVO) Ajuste do Hero para celular */
+    .hero {
+        margin: -10px -10px 20px -10px; /* Reduz a sangria no celular */
+        border-radius: 0;
+    }
+
+    /* --- AQUI ESTÁ A CORREÇÃO ---
+      A regra .container foi totalmente reescrita para telas pequenas
+    */
+    .container {
+        /* Deixa o width automático (respeitará o max-width de 500px) */
+        width: auto; 
+        
+        /* * A MUDANÇA PRINCIPAL: 
+         * 20px em cima/baixo
+         * 15px nas LATERAIS (para não "encostar")
+        */
+        margin: 20px 15px; 
+        
+        padding: 20px;
+        
+        /* Mantém a sombra original */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        /* As bordas e o radius do desktop serão mantidos */
+    }
+
+    main {
+        padding: 10px; /* Reduz o padding principal */
+    }
+    
+    .course-section h3 {
+        padding: 15px;
+    }
+
+    .course-section p {
+        padding: 0 15px 15px 15px;
+    }
+
+    /* (Estilização 47) */
+    #code-submission-area {
+        width: 100%;
+    }
 }

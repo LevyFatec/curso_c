@@ -4,31 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meu Perfil</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
 
     <header>
+        <!-- O cabeçalho fica fora do container, com largura total -->
         <h1>Meu Perfil</h1>
         <nav>
-            <a href="index.html">Voltar ao Curso</a> 
-            <button id="logout-button">Sair</button>
+            <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Voltar ao Curso</a> 
+            <button id="logout-button"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
         </nav>
     </header>
 
-    <main>
+    <!-- ========================================================= -->
+    <!-- (A CORREÇÃO) Adicionamos a class="container" aqui 👇 -->
+    <main class="container"> 
+    <!-- ========================================================= -->
+    
         <div id="loading-message">Carregando informações do perfil...</div>
         
         <section id="profile-details" style="display: none;">
             <h2>Informações da Conta</h2>
-            <p><strong>Email:</strong> <span id="profile-email"></span></p>
+            <p><strong><i class="fa-solid fa-envelope"></i> Email:</strong> <span id="profile-email"></span></p>
             
-            <p><strong>Nome de Usuário:</strong> <span id="profile-username"></span></p>
-            <p><strong>Pontuação Total:</strong> <span id="profile-points"></span> (RF04.3)</p>
+            <p><strong><i class="fa-solid fa-user"></i> Nome de Usuário:</strong> <span id="profile-username"></span></p>
+            <p><strong><i class="fa-solid fa-star"></i> Pontuação Total:</strong> <span id="profile-points"></span></p>
         </section>
 
-        </main>
+    </main>
 
     <script type="module" src="../js/main.js"></script>
     <script type="module" src="../js/auth-guard.js"></script>
