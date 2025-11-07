@@ -18,17 +18,17 @@ const exerciseId = urlParams.get('id');
 // --- LÓGICA DE LOGOUT (Reutilizada) ---
 if(logoutButton) { // Adiciona verificação para segurança
     logoutButton.addEventListener('click', async () => {
-        await supabase.auth.signOut();
-        window.location.href = 'login.html';
+    await supabase.auth.signOut();
+    window.location.href = 'login.html';
     });
 }
 
 
 // --- FUNÇÃO PARA CARREGAR O EXERCÍCIO (RF05.2) ---
 async function loadExercise() {
-    if (!exerciseId) {
-        exerciseTitle.textContent = "Erro";
-        // CORREÇÃO 1: Usar innerHTML aqui
+if (!exerciseId) {
+exerciseTitle.textContent = "Erro";
+ // CORREÇÃO 1: Usar innerHTML aqui
         statementText.innerHTML = "Nenhum ID de exercício fornecido."; 
         return;
     }
@@ -90,7 +90,7 @@ async function submitSolution() {
         submitButton.disabled = false;
     } else {
         console.log('Entrega salva:', data);
-        submitMessage.style.color = 'green';
+    submitMessage.style.color = 'green';
         submitMessage.textContent = 'Exercício entregue com sucesso!';
         submitButton.disabled = false;
     }

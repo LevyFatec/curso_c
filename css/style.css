@@ -472,3 +472,106 @@ pre[class*="language-"] {
     
     margin-bottom: 25px; /* Adiciona uma margem inferior extra para separar do código */
 }
+/* ===================================================================
+   ESTILOS DE ACORDEÃO MULTI-NÍVEL (MÓDULOS E AULAS)
+   =================================================================== */
+
+.course-module {
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    overflow: hidden;
+}
+
+/* Título do Módulo (o novo nível clicável) */
+.module-header {
+    background-color: var(--background-color);
+    padding: 15px;
+    margin: 0;
+    font-size: 1.1em;
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.2s;
+}
+
+.module-header:hover {
+    background-color: #e9e9e9;
+}
+
+/* Ícones de Seta do Módulo */
+.module-header i {
+    margin-right: 10px;
+    color: var(--primary-color);
+}
+
+
+/* Lista de Aulas dentro do Módulo */
+.lesson-list-container {
+    padding: 10px 0;
+}
+
+.lesson-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.lesson-item-wrapper {
+    /* Estilo do item de lista */
+    padding: 5px 15px;
+    border-bottom: 1px dotted #f0f0f0;
+    font-size: 0.95em;
+    display: flex;
+    flex-direction: column;
+}
+
+/* O link da aula em si (torna o link completo o alvo do toggle) */
+.lesson-link-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 0;
+}
+
+/* Ícones de checkmark e de livro/computador */
+.lesson-link-item .checkmark i {
+    color: var(--success-color);
+    margin-right: 5px;
+}
+
+.lesson-link-item a {
+    flex-grow: 1;
+    margin-left: 5px;
+}
+
+/* Ícone de toggle dos exercícios */
+.exercise-toggle-icon {
+    cursor: pointer;
+    color: #888;
+    margin-left: 10px;
+    transition: color 0.2s;
+}
+
+.exercise-toggle-icon:hover {
+    color: var(--primary-color);
+}
+
+
+/* Estilo da lista de exercícios aninhada */
+.exercise-list-nested {
+    list-style: none;
+    padding-left: 30px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-left: 3px solid var(--border-color); /* Linha vertical */
+}
+
+.exercise-list-nested li {
+    padding: 3px 0;
+}
+
+.exercise-list-nested li a {
+    font-size: 0.9em;
+    color: #555;
+}
