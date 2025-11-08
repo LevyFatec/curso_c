@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-
     <header>
         <h1 id="lesson-title">Carregando aula...</h1>
         <nav>
@@ -20,25 +19,20 @@
             <button id="logout-button"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
         </nav>
     </header>
-
-    <main class="container">
-    <div id="lesson-content-container">
+    <main class="content-expanded">
+        <div id="lesson-content-container">
             <p>Carregando conteúdo...</p>
         </div>
-
         <div id="lesson-actions">
             <button id="complete-lesson-button"><i class="fa-solid fa-check"></i> Marcar como Concluída</button>
         </div>
         <span id="complete-message" style="color: green; margin-left: 10px;"></span>
-
     </main>
-
     <script type="module" src="../js/main.js"></script>
     <script type="module" src="../js/auth-guard.js"></script>
     <script type="module" src="../js/lesson-logic.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
-
 </body>
 </html>

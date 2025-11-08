@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 </head>
 <body>
-
     <header>
         <h1 id="exercise-title">Carregando exercício...</h1>
         <nav>
@@ -20,32 +19,25 @@
             <button id="logout-button"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
         </nav>
     </header>
-
-    <main class="container">
-    <section id="exercise-statement">
+    <main class="content-expanded">
+        <section id="exercise-statement">
             <h2>Enunciado</h2>
             <p id="statement-text">Carregando...</p>
         </section>
-
         <section id="exercise-submission">
             <h2>Sua Solução</h2>
             <p>Cole seu código C abaixo:</p>
-            
             <textarea id="code-submission-area" 
-                      rows="20" 
-                      cols="80"
-                      placeholder="#include <stdio.h>&#10;&#10;int main() {&#10;    // Seu código aqui...&#10;    return 0;&#10;}"></textarea>
-            
+                rows="20" 
+                cols="80"
+                placeholder="#include <stdio.h>&#10;&#10;int main() {&#10;    // Seu código aqui...&#10;    return 0;&#10;}"></textarea>
             <br>
             <button id="submit-exercise-button"><i class="fa-solid fa-paper-plane"></i> Entregar Solução</button>
             <span id="submit-message" style="margin-left: 10px;"></span>
         </section>
-
     </main>
-
     <script type="module" src="../js/main.js"></script>
     <script type="module" src="../js/auth-guard.js"></script>
     <script type="module" src="../js/exercise-logic.js"></script>
-    
 </body>
 </html>

@@ -1,19 +1,14 @@
-// Importa o cliente Supabase (assumindo que este é o 'main.js')
 import supabase from './main.js';
-// Importa o 'user' que o nosso guardião verificou
 import user from './auth-guard.js';
 
-// --- ELEMENTOS DO HTML ---
 const logoutButton = document.getElementById('logout-button');
 const userEmailSpan = document.getElementById('user-email');
 const courseListDiv = document.getElementById('course-list');
 const totalPointsSpan = document.getElementById('total-points');
-// Elementos para o Dashboard (RF04.3)
 const completedLessonsSpan = document.getElementById('completed-lessons');
 const currentLevelSpan = document.getElementById('current-level');
 
 
-// --- INICIALIZAÇÃO DA PÁGINA (Login e Logout) ---
 if (userEmailSpan && user) {
     userEmailSpan.textContent = user.email;
 }
@@ -24,21 +19,16 @@ if (logoutButton) {
     });
 }
 
-// ===================================================================
-// LÓGICA DO DASHBOARD (RF04.3, RF04.4 - Exemplo de Stats)
-// ===================================================================
 async function loadStats() {
     if (!user) return; 
 
     try {
-        // 1. Busca os dados do perfil (que já tem a pontuação)
         const { data: profile, error: profileError } = await supabase
             .from('profiles')
             .select('total_points')
             .eq('id', user.id)
             .single();
 
-        // 2. Busca o progresso do usuário para calcular as aulas concluídas
         const { data: progress, error: progressError } = await supabase
             .from('user_progress')
             .select('lesson_id')
@@ -46,15 +36,13 @@ async function loadStats() {
 
         if (profileError || progressError) throw profileError || progressError;
 
-        // 3. (Mock/Exemplo) Calcula o Total de Aulas (Seções 1 a 4 têm 117 aulas)
-        const TOTAL_LESSONS = 117; // Valor hardcoded da nossa estrutura
+        const TOTAL_LESSONS = 117; 
         const completedCount = progress ? progress.length : 0;
         
         let level = 'Básico';
         if (completedCount > 50) level = 'Intermediário';
         if (completedCount > 100) level = 'Avançado';
         
-        // 4. Preenche os cartões
         if (totalPointsSpan && profile) {
             totalPointsSpan.textContent = profile.total_points;
         }
@@ -71,11 +59,7 @@ async function loadStats() {
     }
 }
 
-// --- LÓGICA DO CURSO "ACORDEÃO" ---
 
-/**
- * 3. Renderiza as subseções, aulas E exercícios aninhados.
- */
 function renderSubsections(subsections, userProgress, container) {
     container.innerHTML = ''; 
     if (!subsections || subsections.length === 0) {
@@ -87,28 +71,18 @@ function renderSubsections(subsections, userProgress, container) {
 
     subsections.forEach(subsection => {
         
-        // ===============================================
-        // NÍVEL 2: MÓDULOS (Acordeão das Aulas)
-        // ===============================================
-        
         const moduleDiv = document.createElement('div');
         moduleDiv.className = 'course-module';
 
-        // 1. Título do Módulo (O elemento clicável)
         const moduleHeader = document.createElement('h4');
         moduleHeader.className = 'module-header';
         moduleHeader.innerHTML = `<i class="fa-solid fa-chevron-right"></i> ${subsection.title}`;
         moduleDiv.appendChild(moduleHeader);
         
-        // 2. Container das Aulas (ESCONDIDO por padrão)
         const lessonContainer = document.createElement('div');
         lessonContainer.className = 'lesson-list-container';
         lessonContainer.style.display = 'none';
         
-        
-        // ===============================================
-        // NÍVEL 3: AULAS E EXERCÍCIOS
-        // ===============================================
         
         if (subsection.lessons && subsection.lessons.length > 0) {
             const lessonList = document.createElement('ul');
@@ -117,17 +91,14 @@ function renderSubsections(subsections, userProgress, container) {
             subsection.lessons.forEach(lesson => {
                 const lessonItem = document.createElement('li');
                 
-                // Div que contém o link e o ícone de toggle (para ser o alvo do clique)
                 const lessonLinkDiv = document.createElement('div');
                 lessonLinkDiv.className = 'lesson-link-item';
                 
                 const isCompleted = completedSet.has(lesson.lesson_id);
-                // Ícone de checkmark (se concluído) ou de livro
                 const checkMark = isCompleted 
                     ? `<span class="checkmark"><i class="fa-solid fa-check"></i></span>` 
                     : `<i class="fa-solid fa-book-open"></i>`;
                 
-                // O link principal (para ir para a página da aula)
                 const mainLink = `<a href="lesson.html?id=${lesson.lesson_id}">${lesson.title}</a>`;
                 
                 lessonLinkDiv.innerHTML = `${checkMark} ${mainLink}`;
@@ -136,20 +107,16 @@ function renderSubsections(subsections, userProgress, container) {
                 lessonItem.appendChild(lessonLinkDiv);
 
 
-                // ----------------------------------------
-                // Container dos Exercícios (Toggle na Aula)
-                // ----------------------------------------
                 if (lesson.exercises && lesson.exercises.length > 0) {
                     
-                    // Ícone de toggle para abrir/fechar exercícios
                     const exerciseToggle = document.createElement('span');
                     exerciseToggle.className = 'exercise-toggle-icon';
-                    exerciseToggle.innerHTML = `<i class="fa-solid fa-angle-down"></i>`; // Seta para baixo
-                    lessonLinkDiv.appendChild(exerciseToggle); // Adiciona ícone ao lado do título da aula
+                    exerciseToggle.innerHTML = `<i class="fa-solid fa-angle-down"></i>`; 
+                    lessonLinkDiv.appendChild(exerciseToggle); 
 
                     const exerciseList = document.createElement('ul');
                     exerciseList.className = 'exercise-list-nested'; 
-                    exerciseList.style.display = 'none'; // Exercícios ESCONDIDOS!
+                    exerciseList.style.display = 'none'; 
                     
                     lesson.exercises.forEach(exercise => {
                         const exerciseItem = document.createElement('li');
@@ -159,7 +126,6 @@ function renderSubsections(subsections, userProgress, container) {
                     
                     lessonItem.appendChild(exerciseList); 
 
-                    // LÓGICA DE CLIQUE DA AULA (Toggle dos exercícios)
                     exerciseToggle.addEventListener('click', () => {
                         if (exerciseList.style.display === 'block') {
                             exerciseList.style.display = 'none';
@@ -180,7 +146,6 @@ function renderSubsections(subsections, userProgress, container) {
         container.appendChild(moduleDiv);
 
 
-        // LÓGICA DE CLIQUE DO MÓDULO (Toggle das Aulas)
         moduleHeader.addEventListener('click', () => {
             if (lessonContainer.style.display === 'block') {
                 lessonContainer.style.display = 'none';
@@ -195,9 +160,6 @@ function renderSubsections(subsections, userProgress, container) {
 }
 
 
-/**
- * 2. Busca o conteúdo (com exercícios aninhados)
- */
 async function handleSectionClick(section, sectionDiv) {
     const contentContainer = sectionDiv.querySelector('.subsection-content');
     const isLoaded = contentContainer.dataset.loaded === 'true';
@@ -208,13 +170,11 @@ async function handleSectionClick(section, sectionDiv) {
         contentContainer.dataset.loaded = 'true'; 
 
         try {
-            // Busca o progresso (sem mudança)
             const progressPromise = supabase
                 .from('user_progress')
                 .select('lesson_id')
                 .eq('user_id', user.id);
 
-            // Busca as subseções, com aulas, COM EXERCÍCIOS aninhados DENTRO das aulas
             const subsectionsPromise = supabase
                 .from('subsections')
                 .select(`
@@ -242,7 +202,6 @@ async function handleSectionClick(section, sectionDiv) {
 
             if (progressError || subsectionsError) throw progressError || subsectionsError;
 
-            // Renderiza o conteúdo dentro do container
             renderSubsections(subsections, userProgress, contentContainer);
 
         } catch (error) {
@@ -252,15 +211,11 @@ async function handleSectionClick(section, sectionDiv) {
         }
 
     } else {
-        // Toggle da Seção Principal
         const isVisible = contentContainer.style.display === 'block';
         contentContainer.style.display = isVisible ? 'none' : 'block';
     }
 }
 
-/**
- * 1. Renderiza apenas as Seções principais (Nível 1)
- */
 function renderSections(sections) {
     courseListDiv.innerHTML = ''; 
     if (!sections || sections.length === 0) {
@@ -273,7 +228,6 @@ function renderSections(sections) {
         sectionDiv.className = 'course-section';
 
         const header = document.createElement('h3');
-        // INJETANDO O ÍCONE (para a Seção Principal)
         header.innerHTML = `<i class="fa-solid fa-chevron-right"></i> ${section.title}`;
         header.style.cursor = 'pointer'; 
         sectionDiv.appendChild(header);
@@ -284,23 +238,18 @@ function renderSections(sections) {
 
         const contentContainer = document.createElement('div');
         contentContainer.className = 'subsection-content';
-        contentContainer.style.display = 'none'; // Conteúdo de aulas/módulos ESCONDIDO!
+        contentContainer.style.display = 'none'; 
         sectionDiv.appendChild(contentContainer);
 
-        // O clique no H3 (Seção) aciona o carregamento/toggle do conteúdo (Aulas/Módulos)
         header.addEventListener('click', () => {
-            // Lógica de toggle do ícone
             const icon = header.querySelector('i');
             
             if (contentContainer.style.display === 'block') {
-                 // Esconder
                 contentContainer.style.display = 'none';
                 icon.className = 'fa-solid fa-chevron-right'; 
             } else {
-                // Mostrar
                 contentContainer.style.display = 'block';
                 icon.className = 'fa-solid fa-chevron-down'; 
-                // Chama a função que carrega o conteúdo dos módulos
                 handleSectionClick(section, sectionDiv);
             }
         });
@@ -309,9 +258,6 @@ function renderSections(sections) {
     });
 }
 
-/**
- * 0. Função principal que INICIA a página
- */
 async function loadPage() {
     if (!courseListDiv) return;
     courseListDiv.innerHTML = '<p>Carregando estrutura do curso...</p>';
@@ -330,6 +276,5 @@ async function loadPage() {
     renderSections(sections);
 }
 
-// --- CHAMA AS FUNÇÕES DE INICIALIZAÇÃO ---
 loadPage();
 loadStats();

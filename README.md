@@ -75,7 +75,7 @@ O projeto está publicado em:
 
 | Função | Nome | gitHub |
 | :--- | :--- | :--- |
-| **Desenvolvedor Principal** | [Levy] | [https://github.com/LevyFatec/curso_c] |
+| **Desenvolvedor Principal** | [Levy] | [https://github.com/LevyFatec] |
 
 
 ---

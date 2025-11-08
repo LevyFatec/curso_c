@@ -11,7 +11,6 @@ resetPasswordForm.addEventListener('submit', async (e) => {
 
     formButton.disabled = true;
 
-    // (RF01.3) Função do Supabase para ATUALIZAR a senha
     const { data, error } = await supabase.auth.updateUser({
         password: password
     });

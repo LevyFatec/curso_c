@@ -1,7 +1,3 @@
-/* ===================================================================
-    RESET BÁSICO E VARIÁVEIS GLOBAIS
-    =================================================================== */
-
 * {
     margin: 0;
     padding: 0;
@@ -19,13 +15,7 @@
     --error-color: #dc3545; 
 }
 
-/* ===================================================================
-    ESTILOS GLOBAIS (BODY, HEADER, MAIN)
-    =================================================================== */
-
-/* --- MODIFICADO --- (Adicionada a fonte 'Lato') */
 body {
-    /* A nova fonte do Google Fonts vem primeiro */
     font-family: 'Lato', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     background-color: var(--background-color);
     color: var(--text-color);
@@ -43,11 +33,9 @@ header {
 
 header h1 {
     color: var(--primary-color);
-    /* [CORREÇÃO DESKTOP]: Garante que o título tenha espaço e não quebre */
     min-width: 150px; 
 }
 
-/* [CORREÇÃO DESKTOP]: Garante que a navegação não quebre os links */
 header nav {
     white-space: nowrap; 
 }
@@ -60,38 +48,27 @@ main {
     padding: 20px;
 }
 
-/* ===================================================================
-    /* --- NOVO --- ESTILO DA SEÇÃO HERO (Página Inicial)
-    =================================================================== */
 .hero {
-    /* Gradiente */
     background: linear-gradient(90deg, var(--primary-color), var(--primary-hover));
     color: white;
     padding: 30px 25px;
-    
-    /* Faz "sangrar" para as bordas do main */
     margin: -20px -20px 20px -20px; 
-    
-    /* Ajuste para o @media query de celular */
     border-radius: 0 0 8px 8px; 
 }
 
 .hero h2 {
     margin: 0;
     padding: 0;
-    text-align: left; /* Sobrepõe o .container h2 */
+    text-align: left; 
 }
 
 .hero p {
-    color: #e0e0e0; /* Um branco mais suave */
+    color: #e0e0e0; 
     font-size: 1.1em;
     padding: 0;
     margin-top: 5px;
 }
 
-/* ===================================================================
-    ESTILO DE CONTAINER (Para Login, Cadastro, etc.)
-    =================================================================== */
 .container {
     max-width: 500px;
     margin: 40px auto; 
@@ -102,14 +79,23 @@ main {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); 
 }
 
-.container h2 {
+
+.content-expanded {
+    max-width: 900px; /* Largura maior */
+    margin: 40px auto;
+    padding: 30px;
+    background-color: var(--container-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); 
+}
+
+
+.container h2, .content-expanded h2 {
     margin-bottom: 20px;
     text-align: center;
 }
 
-/* ===================================================================
-    FORMULÁRIOS (Inputs, Labels, Botões)
-    =================================================================== */
 form div {
     margin-bottom: 15px;
 }
@@ -181,26 +167,18 @@ a:hover {
     font-weight: bold;
 }
 
-/* ===================================================================
-    ESTILOS DO CURSO (Acordeão, Aulas, Checkmark)
-    =================================================================== */
-
-/* --- MODIFICADO --- (Adicionada a transição e sombra) */
 .course-section {
     background-color: var(--container-color);
     margin-bottom: 15px;
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    overflow: hidden; /* Para o acordeão */
-
-    /* (NOVO) Transição suave para o hover */
+    overflow: hidden; 
     transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
 }
 
-/* --- NOVO --- (Efeito de "levantar" ao passar o mouse) */
 .course-section:hover {
-    transform: translateY(-3px); /* Efeito de "levantar" */
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08); /* Sombra mais pronunciada */
+    transform: translateY(-3px); 
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08); 
 }
 
 
@@ -228,7 +206,7 @@ a:hover {
     margin-right: 20px;
     margin-bottom: 20px;
     border-left: 2px solid var(--background-color);
-    display: none; /* Começa escondido (lógica JS controla) */
+    display: none; 
 }
 
 .lesson-list,
@@ -256,9 +234,6 @@ a:hover {
     margin-left: 5px;
 }
 
-/* ===================================================================
-    PÁGINA DA AULA (Código, Botão Copiar, Concluir)
-    =================================================================== */
 .code-wrapper {
     position: relative;
     margin: 20px 0;
@@ -297,9 +272,6 @@ pre[class*="language-"] {
     background-color: #218838;
 }
 
-/* ===================================================================
-    PÁGINA DO EXERCÍCIO (Textarea)
-    =================================================================== */
 #code-submission-area {
     width: 100%;
     padding: 10px;
@@ -316,64 +288,47 @@ pre[class*="language-"] {
     box-shadow: 0 0 5px rgba(0,123,255,0.3);
 }
 
-/* ===================================================================
-    CSS RESPONSIVO (Media Queries)
-    Estilos para telas pequenas (ex: celulares)
-    =================================================================== */
-
-/* (Estilização 44) 
-    Quando a tela for 768px ou menor... 
-*/
 @media (max-width: 768px) {
 
-    /* (Estilização 45) */
     header {
-        flex-direction: column; /* Empilha os itens */
-        padding: 15px 10px; /* [MODIFICADO]: Reduz o padding para celular */
+        flex-direction: column; 
+        padding: 15px 10px; 
         text-align: center;
     }
     
-    /* [NOVO]: Remove o min-width forçado no celular */
     header h1 {
         min-width: auto;
     }
 
     header nav {
-        margin-top: 15px; /* Adiciona espaço acima dos links/botão */
-        /* [NOVO]: Usa flexbox para espaçar os itens Perfil/Sair */
+        margin-top: 15px; 
         display: flex;
         gap: 15px;
-        justify-content: center; /* Centraliza a nav */
+        justify-content: center; 
     }
 
-    /* (NOVO) Ajuste do Hero para celular */
     .hero {
-        margin: -10px -10px 20px -10px; /* Reduz a sangria no celular */
+        margin: -10px -10px 20px -10px; 
         border-radius: 0;
     }
 
-    /* --- AQUI ESTÁ A CORREÇÃO ---
-      A regra .container foi totalmente reescrita para telas pequenas
-    */
+    /* MANTÉM 500px para formulários (apenas a margem é ajustada) */
     .container {
-        /* Deixa o width automático (respeitará o max-width de 500px) */
         width: auto; 
-        
-        /* * A MUDANÇA PRINCIPAL: 
-          * 20px em cima/baixo
-          * 15px nas LATERAIS (para não "encostar")
-        */
         margin: 20px 15px; 
-        
         padding: 20px;
-        
-        /* Mantém a sombra original */
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-        /* As bordas e o radius do desktop serão mantidos */
+    }
+    
+    /* EXPANDIDO: Permite que usem 100% da tela no celular */
+    .content-expanded {
+        max-width: 100%;
+        margin: 20px 15px;
+        padding: 20px;
     }
 
     main {
-        padding: 10px; /* Reduz o padding principal */
+        padding: 10px; 
     }
     
     .course-section h3 {
@@ -384,78 +339,60 @@ pre[class*="language-"] {
         padding: 0 15px 15px 15px;
     }
 
-    /* (Estilização 47) */
     #code-submission-area {
         width: 100%;
     }
 }
-/* ===================================================================
-    ESTILIZAÇÃO DO CONTEÚDO DA AULA (Correção)
-    =================================================================== */
 
-/* Seleciona o container do conteúdo da aula */
 #lesson-content-container {
-    font-size: 1.1em; /* Deixa o texto da aula um pouco maior */
-    line-height: 1.7; /* Aumenta o espaçamento entre as linhas */
+    font-size: 1.1em; 
+    line-height: 1.7; 
 }
 
 
 #lesson-content-container > * {
-    margin-bottom: 1.5em; /* (1.5em é aprox. 24px) */
+    margin-bottom: 1.5em; 
 }
 
 
 #lesson-content-container > *:last-child {
     margin-bottom: 0;
 }
-/* ===================================================================
-    ESTILIZAÇÃO DO CONTEÚDO DA AULA (Subtítulos)
-    =================================================================== */
 
-/* O subtítulo que acabamos de criar */
 .lesson-subtitle {
-    font-size: 1.5em; /* (ex: 24px) */
-    font-weight: 700; /* Negrito */
-    color: var(--primary-hover); /* Azul escuro */
-    margin-top: 2em; /* Dá um espaço GRANDE antes do subtítulo */
-    margin-bottom: 0.8em; /* Dá um espaço pequeno depois */
-    border-bottom: 2px solid var(--border-color); /* Linha sutil abaixo */
+    font-size: 1.5em; 
+    font-weight: 700; 
+    color: var(--primary-hover); 
+    margin-top: 2em; 
+    margin-bottom: 0.8em; 
+    border-bottom: 2px solid var(--border-color); 
     padding-bottom: 5px;
 }
 
-/* Garante que o primeiro subtítulo não tenha espaço extra em cima */
 #lesson-content-container > .lesson-subtitle:first-child {
     margin-top: 0;
 }
 
-/* ===================================================================
-    ESTILOS PARA EXERCÍCIOS ANINHADOS
-    =================================================================== */
-
-/* Remove o padding padrão do <li> da aula para a lista aninhada caber */
 .lesson-item-container {
     padding: 5px 0;
 }
 
-/* A lista <ul> de exercícios aninhada */
 .exercise-list-nested {
     list-style-type: none;
-    padding-left: 25px; /* Adiciona o recuo (indentação) */
+    padding-left: 25px; 
     margin-top: 8px;
     margin-bottom: 5px;
-    font-size: 0.9em; /* Fonte um pouco menor */
-    border-left: 2px solid #eee; /* Linha vertical sutil */
+    font-size: 0.9em; 
+    border-left: 2px solid #eee; 
     margin-left: 5px;
 }
 
-/* O item <li> do exercício */
 .exercise-list-nested li {
     padding: 2px 0;
 }
 
-/* Link do exercício */
 .exercise-list-nested li a {
-    color: #555; /* Cor mais suave para o exercício */
+    color: #555; 
     font-weight: bold;
 }
 
@@ -465,32 +402,21 @@ pre[class*="language-"] {
 #statement-text {
     white-space: pre-wrap; 
 }
-/* ===================================================================
-    CORREÇÃO DE ESPAÇAMENTO DE ENUNCIADO (A solução do problema)
-    =================================================================== */
-
-/* O seu enunciado vive em <section id="exercise-statement"> */
 
 #exercise-statement p {
-    /* (Apenas para garantir que o parágrafo tenha margem inferior) */
     margin-bottom: 1.2em;
 }
 
-/* Garante que o H2 do enunciado tenha margem inferior para separar do texto */
 #exercise-statement h2 {
     margin-bottom: 15px; 
 }
 
-/* O ID do parágrafo onde o enunciado do exercício vai */
 #statement-text {
     
     white-space: pre-wrap; 
     
-    margin-bottom: 25px; /* Adiciona uma margem inferior extra para separar do código */
+    margin-bottom: 25px; 
 }
-/* ===================================================================
-    ESTILOS DE ACORDEÃO MULTI-NÍVEL (MÓDULOS E AULAS)
-    =================================================================== */
 
 .course-module {
     margin-bottom: 10px;
@@ -500,7 +426,6 @@ pre[class*="language-"] {
     overflow: hidden;
 }
 
-/* Título do Módulo (o novo nível clicável) */
 .module-header {
     background-color: var(--background-color);
     padding: 15px;
@@ -515,14 +440,12 @@ pre[class*="language-"] {
     background-color: #e9e9e9;
 }
 
-/* Ícones de Seta do Módulo */
 .module-header i {
     margin-right: 10px;
     color: var(--primary-color);
 }
 
 
-/* Lista de Aulas dentro do Módulo */
 .lesson-list-container {
     padding: 10px 0;
 }
@@ -534,7 +457,6 @@ pre[class*="language-"] {
 }
 
 .lesson-item-wrapper {
-    /* Estilo do item de lista */
     padding: 5px 15px;
     border-bottom: 1px dotted #f0f0f0;
     font-size: 0.95em;
@@ -542,7 +464,6 @@ pre[class*="language-"] {
     flex-direction: column;
 }
 
-/* O link da aula em si (torna o link completo o alvo do toggle) */
 .lesson-link-item {
     display: flex;
     align-items: center;
@@ -550,7 +471,6 @@ pre[class*="language-"] {
     padding: 5px 0;
 }
 
-/* Ícones de checkmark e de livro/computador */
 .lesson-link-item .checkmark i {
     color: var(--success-color);
     margin-right: 5px;
@@ -561,7 +481,6 @@ pre[class*="language-"] {
     margin-left: 5px;
 }
 
-/* Ícone de toggle dos exercícios */
 .exercise-toggle-icon {
     cursor: pointer;
     color: #888;
@@ -573,14 +492,12 @@ pre[class*="language-"] {
     color: var(--primary-color);
 }
 
-
-/* Estilo da lista de exercícios aninhada */
 .exercise-list-nested {
     list-style: none;
     padding-left: 30px;
     margin-top: 5px;
     margin-bottom: 5px;
-    border-left: 3px solid var(--border-color); /* Linha vertical */
+    border-left: 3px solid var(--border-color); 
 }
 
 .exercise-list-nested li {
@@ -591,13 +508,8 @@ pre[class*="language-"] {
     font-size: 0.9em;
     color: #555;
 }
-/* ===================================================================
-    ESTILIZAÇÃO DE ACORDEÃO (SEÇÃO PRINCIPAL - H3)
-    =================================================================== */
 
-/* Título da Seção Principal (H3) */
 .course-section h3 {
-    /* Mudei o padding para dar mais área de clique */
     padding: 18px 20px; 
     margin: 0;
     font-size: 1.3em;
@@ -606,43 +518,37 @@ pre[class*="language-"] {
     background-color: var(--container-color);
     border-bottom: 1px solid var(--border-color);
     transition: background-color 0.2s, color 0.2s;
-    display: flex; /* Para alinhar o ícone */
+    display: flex; 
     align-items: center;
 }
 
 .course-section h3:hover {
-    background-color: #f5f5f5; /* Sutilmente mais claro */
+    background-color: #f5f5f5; 
     color: var(--primary-color);
 }
 
-/* Ícone de Expansão (A Seta) */
 .course-section h3 i {
     margin-right: 15px;
-    font-size: 0.9em; /* slightly smaller icon */
+    font-size: 0.9em; 
     transition: transform 0.3s;
     color: #555;
 }
 
-/* Garante que a descrição não fique colada no botão */
 .course-section p {
     padding: 0 20px 15px 20px; 
 }
-/* ===================================================================
-    ESTILOS DE DASHBOARD E ESTATÍSTICAS (GRID)
-    =================================================================== */
 
 .stat-grid {
-    display: flex; /* Para alinhar os cartões */
-    flex-wrap: wrap; /* Permite quebrar em telas menores */
+    display: flex; 
+    flex-wrap: wrap; 
     justify-content: space-between;
     align-items: stretch;
-    gap: 20px; /* Espaçamento entre os cartões */
-    margin: 20px auto !important; /* Sobrescreve o container */
-    max-width: 900px; /* Aumenta a largura do grid */
-    padding: 0 20px; /* Padding apenas nas laterais */
+    gap: 20px; 
+    margin: 0 auto; 
+    max-width: 900px; 
+    padding: 0 0; 
 }
 
-/* Card Individual de Estatística */
 .stat-card {
     background-color: var(--container-color);
     border: 1px solid var(--border-color);
@@ -650,7 +556,7 @@ pre[class*="language-"] {
     padding: 20px;
     flex-grow: 1;
     text-align: center;
-    min-width: 150px; /* Garante que não fique muito pequeno */
+    min-width: 150px; 
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
@@ -664,7 +570,7 @@ pre[class*="language-"] {
     font-size: 0.9em;
     color: #777;
     margin-bottom: 5px;
-    padding: 0; /* Remove padding desnecessário de outros p's */
+    padding: 0; 
 }
 
 .stat-card span {
@@ -674,7 +580,6 @@ pre[class*="language-"] {
     color: var(--text-color);
 }
 
-/* Título da Seção do Curso */
 #course-container h2 {
     margin-bottom: 25px;
     color: var(--primary-hover);
@@ -690,36 +595,24 @@ pre[class*="language-"] {
     color: var(--success-color);
 }
 
-/* --- AJUSTES DE RESPONSIVIDADE (PARA O GRID) --- */
 @media (max-width: 768px) {
     .stat-grid {
-        flex-direction: column; /* Empilha os cartões */
+        flex-direction: column; 
         max-width: 100%;
-        padding: 0 15px;
-        margin: 20px auto !important;
+        padding: 0 0;
+        margin: 0;
     }
 }
-/* ===================================================================
-   CORREÇÃO DE LAYOUT: CENTRALIZANDO E AMPLIANDO CONTEÚDO
-   =================================================================== */
 
-/* Novo wrapper para centralizar a grade de estatísticas */
 .stat-grid-wrapper, .course-content-wrapper {
-    /* Centraliza o bloco na tela */
-    margin: 20px auto; 
-    
-    /* Largura ampliada para PCs/Tablets grandes */
-    max-width: 900px; 
-    
-    /* Adiciona padding interno para evitar encostar nas bordas do navegador */
-    padding: 0 20px; 
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 0 20px;
 }
 
-/* Onde o layout de 900px se torna 100% no celular */
 @media (max-width: 768px) {
     .stat-grid-wrapper, .course-content-wrapper {
         max-width: 100%;
-        /* Ajusta o padding para a correção de 15px do container original */
         padding: 0 15px; 
     }
 }

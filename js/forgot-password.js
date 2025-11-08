@@ -12,10 +12,7 @@ forgotPasswordForm.addEventListener('submit', async (e) => {
     formButton.disabled = true;
     messageDiv.textContent = 'Enviando...';
 
-    // (RF01.3) Função do Supabase para enviar o e-mail
     const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-        // Redireciona para a página que você configurou no template
-        // (Isso é uma garantia extra)
         redirectTo: window.location.origin + '/html/reset-password.html',
     });
 
