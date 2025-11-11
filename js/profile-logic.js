@@ -10,7 +10,7 @@ const profilePointsSpan = document.getElementById('profile-points');
 const logoutButton = document.getElementById('logout-button');
 logoutButton.addEventListener('click', async () => {
     await supabase.auth.signOut();
-    window.location.href = 'login.html';
+    window.location.href = '/html/login.html';
 });
 
 async function loadProfileData() {

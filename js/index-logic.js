@@ -15,7 +15,7 @@ if (userEmailSpan && user) {
 if (logoutButton) {
     logoutButton.addEventListener('click', async () => {
         await supabase.auth.signOut();
-        window.location.href = 'login.html';
+        window.location.href = '/html/login.html';
     });
 }
 
@@ -99,7 +99,7 @@ function renderSubsections(subsections, userProgress, container) {
                     ? `<span class="checkmark"><i class="fa-solid fa-check"></i></span>` 
                     : `<i class="fa-solid fa-book-open"></i>`;
                 
-                const mainLink = `<a href="lesson.html?id=${lesson.lesson_id}">${lesson.title}</a>`;
+                const mainLink = `<a href="/html/lesson.html?id=${lesson.lesson_id}">${lesson.title}</a>`;
                 
                 lessonLinkDiv.innerHTML = `${checkMark} ${mainLink}`;
                 
@@ -120,7 +120,7 @@ function renderSubsections(subsections, userProgress, container) {
                     
                     lesson.exercises.forEach(exercise => {
                         const exerciseItem = document.createElement('li');
-                        exerciseItem.innerHTML = `<i class="fa-solid fa-laptop-code"></i> <a href="exercise.html?id=${exercise.exercise_id}">${exercise.title}</a>`;
+                        exerciseItem.innerHTML = `<i class="fa-solid fa-laptop-code"></i> <a href="/html/exercise.html?id=${exercise.exercise_id}">${exercise.title}</a>`;
                         exerciseList.appendChild(exerciseItem);
                     });
                     

@@ -10,7 +10,7 @@ async function checkUserSession() {
 
     if (!session) {
         console.log("Nenhum usuário logado. Redirecionando para login.");
-        window.location.href = 'login.html';
+        window.location.href = '/html/login.html';
     } else {
         console.log("Usuário logado:", session.user.email);
         return session.user;

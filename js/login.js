@@ -24,7 +24,7 @@ loginForm.addEventListener('submit', async (e) => {
         messageDiv.innerHTML = 'Login realizado com sucesso! Redirecionando...';
         
         setTimeout(() => {
-            window.location.href = 'index.html'; 
+            window.location.href = '/index.html'; 
         }, 1000);
     }
 });
