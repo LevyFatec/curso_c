@@ -140,4 +140,45 @@ async function loadLesson() {
     completeButton.addEventListener('click', completeLesson);
 }
 
+async function nextLesson() {
+    const { data, error } = await supabase
+        .from('lessons')
+        .select('lesson_id')
+        .gt('lesson_id', lessonId) // maior que o ID atual
+        .order('lesson_id', { ascending: true })
+        .limit(1)
+        .single();
+
+    if (error || !data) {
+        console.warn('Nenhuma próxima aula encontrada.');
+        alert('Você já está na última aula!');
+        return;
+    }
+
+    window.location.href = `/html/lesson.html?id=${data.lesson_id}`;
+}
+
+async function prevLesson() {
+    const { data, error } = await supabase
+        .from('lessons')
+        .select('lesson_id')
+        .lt('lesson_id', lessonId) // menor que o ID atual
+        .order('lesson_id', { ascending: false })
+        .limit(1)
+        .single();
+
+    if (error || !data) {
+        console.warn('Nenhuma aula anterior encontrada.');
+        alert('Você já está na primeira aula!');
+        return;
+    }
+
+    window.location.href = `/html/lesson.html?id=${data.lesson_id}`;
+}
+
+
 loadLesson();
+loadLesson();
+
+document.getElementById('next-lesson-button').addEventListener('click', nextLesson);
+document.getElementById('prev-lesson-button').addEventListener('click', prevLesson);
