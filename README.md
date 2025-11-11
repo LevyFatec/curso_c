@@ -67,7 +67,7 @@ Para rodar este projeto em sua máquina, você precisará apenas de um editor de
 
 O projeto está publicado em:
 
-[link ainda não disponível]
+[[curso c](https://curso-c.vercel.app/)]
 
 ---
 
