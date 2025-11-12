@@ -242,17 +242,9 @@ function renderSections(sections) {
         sectionDiv.appendChild(contentContainer);
 
         header.addEventListener('click', () => {
-            const icon = header.querySelector('i');
-            
-            if (contentContainer.style.display === 'block') {
-                contentContainer.style.display = 'none';
-                icon.className = 'fa-solid fa-chevron-right'; 
-            } else {
-                contentContainer.style.display = 'block';
-                icon.className = 'fa-solid fa-chevron-down'; 
-                handleSectionClick(section, sectionDiv);
-            }
-        });
+    handleSectionClick(section, sectionDiv);
+});
+
 
         courseListDiv.appendChild(sectionDiv);
     });
