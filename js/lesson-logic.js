@@ -175,6 +175,26 @@ async function prevLesson() {
 
     window.location.href = `/html/lesson.html?id=${data.lesson_id}`;
 }
+// --- Ir para o exercício relacionado ---
+const goToExerciseButton = document.getElementById('go-to-exercise-button');
+
+if (goToExerciseButton) {
+    goToExerciseButton.addEventListener('click', async () => {
+        const { data, error } = await supabase
+            .from('exercises')
+            .select('exercise_id')
+            .eq('lesson_id', lessonId) // 🔹 ligação entre aula e exercício
+            .single();
+
+        if (error || !data) {
+            alert('Nenhum exercício disponível para esta aula.');
+            return;
+        }
+
+        // Redireciona para a página de exercício
+        window.location.href = `/html/exercise.html?id=${data.exercise_id}`;
+    });
+}
 
 
 loadLesson();

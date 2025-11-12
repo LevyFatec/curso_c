@@ -616,3 +616,18 @@ pre[class*="language-"] {
         padding: 0 15px; 
     }
 }
+.small-button {
+    background-color: #0077cc;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 6px 10px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: background-color 0.2s ease;
+}
+
+.small-button:hover {
+    background-color: #005fa3;
+}
